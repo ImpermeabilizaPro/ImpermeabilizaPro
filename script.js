@@ -75,8 +75,7 @@ const quickForm=document.getElementById('quickForm');
 if(quickForm){
   const state={
     tipo:service==='telhados'?'Telhado / cobertura':service==='terracos'?'Terraço / varanda':'',
-    situacao:'',
-    area:''
+    situacao:''
   };
   let formStarted=false;
   function markStart(){
@@ -89,6 +88,7 @@ if(quickForm){
 
   document.querySelectorAll('.choice-grid').forEach(group=>{
     const name=group.dataset.name;
+    if(!name)return;
     group.querySelectorAll('button').forEach(btn=>{
       if(btn.dataset.value===state[name])btn.classList.add('active');
       btn.addEventListener('click',()=>{
@@ -98,21 +98,34 @@ if(quickForm){
     });
   });
 
+  const areaInput=document.getElementById('areaM2');
+  const areaUnknown=document.getElementById('areaUnknown');
+  if(areaUnknown&&areaInput){
+    areaUnknown.addEventListener('change',()=>{
+      areaInput.disabled=areaUnknown.checked;
+      if(areaUnknown.checked)areaInput.value='';
+    });
+    areaInput.addEventListener('input',()=>{if(areaInput.value)areaUnknown.checked=false});
+  }
+
   quickForm.addEventListener('submit',e=>{
     e.preventDefault();
     markStart();
     const locality=document.getElementById('localidade')?.value.trim()||'';
+    const areaValue=areaInput?.value.trim()||'';
+    const doesNotKnowArea=!!areaUnknown?.checked;
     const error=document.getElementById('formError');
     const missing=[];
     if(!state.tipo)missing.push('onde é o trabalho');
     if(!state.situacao)missing.push('o que precisa');
+    if(!areaValue&&!doesNotKnowArea)missing.push('os m² aproximados ou “Ainda não sei”');
     if(!locality)missing.push('a localidade');
     if(missing.length){
       if(error){error.textContent='Indique '+missing.join(', ')+'.';error.hidden=false}
       return;
     }
     if(error)error.hidden=true;
-    const area=state.area||'Por indicar';
+    const area=doesNotKnowArea?'Não sei':`${areaValue} m²`;
     const msg=[
       directMessages[service]||directMessages.geral,
       `Zona: ${state.tipo}`,
@@ -121,7 +134,9 @@ if(quickForm){
       `Localidade: ${locality}`,
       'Posso enviar fotografias ou vídeo se ajudar na avaliação.'
     ].join('\n');
-    push('ip_quick_request',trackingContext({request_type:state.tipo,request_situation:state.situacao,request_area:area,page_path:pagePath}));
+    const tracking=trackingContext({request_type:state.tipo,request_situation:state.situacao,request_area:area,page_path:pagePath,form_type:'quick_whatsapp'});
+    push('ip_quick_request',tracking);
+    push('ip_form_submitted',tracking);
     push('ip_contact_click',trackingContext({contact_action:'whatsapp_quick_request',page_path:pagePath}));
     window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`,'_blank','noopener,noreferrer');
   });
