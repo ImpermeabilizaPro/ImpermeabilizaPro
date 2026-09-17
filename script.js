@@ -75,7 +75,8 @@ const quickForm=document.getElementById('quickForm');
 if(quickForm){
   const state={
     tipo:service==='telhados'?'Telhado / cobertura':service==='terracos'?'Terraço / varanda':'',
-    situacao:''
+    situacao:'',
+    area:''
   };
   let formStarted=false;
   function markStart(){
@@ -114,18 +115,20 @@ if(quickForm){
     const locality=document.getElementById('localidade')?.value.trim()||'';
     const areaValue=areaInput?.value.trim()||'';
     const doesNotKnowArea=!!areaUnknown?.checked;
+    const legacyArea=!areaInput?state.area:'';
     const error=document.getElementById('formError');
     const missing=[];
     if(!state.tipo)missing.push('onde é o trabalho');
     if(!state.situacao)missing.push('o que precisa');
-    if(!areaValue&&!doesNotKnowArea)missing.push('os m² aproximados ou “Ainda não sei”');
+    if(areaInput && !areaValue && !doesNotKnowArea)missing.push('os m² aproximados ou “Ainda não sei”');
+    if(!areaInput && !legacyArea)missing.push('a área aproximada');
     if(!locality)missing.push('a localidade');
     if(missing.length){
       if(error){error.textContent='Indique '+missing.join(', ')+'.';error.hidden=false}
       return;
     }
     if(error)error.hidden=true;
-    const area=doesNotKnowArea?'Não sei':`${areaValue} m²`;
+    const area=areaInput?(doesNotKnowArea?'Não sei':`${areaValue} m²`):legacyArea;
     const msg=[
       directMessages[service]||directMessages.geral,
       `Zona: ${state.tipo}`,
