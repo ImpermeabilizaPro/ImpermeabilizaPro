@@ -1,17 +1,147 @@
 const GTM='GTM-KTCT795B';
-function push(event,extra={}){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event,...extra})}
-function loadGTM(){if(window.__gtmLoaded)return;window.__gtmLoaded=true;const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtm.js?id='+GTM;document.head.appendChild(s)}
+const PHONE='351930446198';
+const params=new URLSearchParams(location.search);
+
+// Preserve old ad/landing links while moving to stable, indexable URLs.
+if(location.pathname==='/' && ['telhados','terracos'].includes(params.get('servico'))){
+  const service=params.get('servico');
+  params.delete('servico');
+  const query=params.toString();
+  location.replace(`/${service}/${query?`?${query}`:''}`);
+}
+
+function push(event,extra={}){
+  window.dataLayer=window.dataLayer||[];
+  window.dataLayer.push({event,...extra});
+}
+function loadGTM(){
+  if(window.__gtmLoaded)return;
+  window.__gtmLoaded=true;
+  const s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtm.js?id='+GTM;
+  document.head.appendChild(s);
+}
 loadGTM();
-const consent=localStorage.getItem('ip_consent');const cookie=document.getElementById('cookie');if(!consent){cookie.classList.add('show')}else{const granted=consent==='accepted'?'granted':'denied';gtag('consent','update',{ad_storage:granted,analytics_storage:granted,ad_user_data:granted,ad_personalization:granted})}
-function setConsent(v){localStorage.setItem('ip_consent',v);gtag('consent','update',{ad_storage:v==='accepted'?'granted':'denied',analytics_storage:v==='accepted'?'granted':'denied',ad_user_data:v==='accepted'?'granted':'denied',ad_personalization:v==='accepted'?'granted':'denied'});push('ip_consent_update',{consent_choice:v});cookie.classList.remove('show')}
-document.getElementById('accept').onclick=()=>setConsent('accepted');document.getElementById('essential').onclick=()=>setConsent('rejected');
-const p=new URLSearchParams(location.search);const variant=['telhados','terracos'].includes(p.get('servico'))?p.get('servico'):'geral';
-const variants={geral:{ey:'IMPERMEABILIZAÇÃO PROFISSIONAL',title:'Impermeabilização de telhados, terraços e coberturas',body:'Nova impermeabilização, renovação e reparação com tela asfáltica, para prevenir problemas ou resolver infiltrações existentes.'},telhados:{ey:'TELHADOS E COBERTURAS',title:'Impermeabilização de telhados e coberturas',body:'Nova impermeabilização, renovação e reparação de coberturas para prevenir entrada de água ou resolver problemas existentes.'},terracos:{ey:'TERRAÇOS E VARANDAS',title:'Impermeabilização de terraços e varandas',body:'Nova impermeabilização, renovação e reparação para proteger o terraço contra água e humidade ou resolver infiltrações existentes.'}};
-document.getElementById('heroEyebrow').textContent=variants[variant].ey;document.getElementById('heroTitle').textContent=variants[variant].title;document.getElementById('heroBody').textContent=variants[variant].body;
-const directMsg=variant==='telhados'?'Olá. Gostaria de pedir uma avaliação para impermeabilização de um telhado/cobertura.':variant==='terracos'?'Olá. Gostaria de pedir uma avaliação para impermeabilização de um terraço/varanda.':'Olá. Gostaria de pedir uma avaliação para um trabalho de impermeabilização.';
-document.querySelectorAll('.wa-direct').forEach(a=>a.href='https://wa.me/351930446198?text='+encodeURIComponent(directMsg));
-const state={tipo:variant==='telhados'?'Telhado / cobertura':variant==='terracos'?'Terraço / varanda':'',situacao:'',area:''};
-document.querySelectorAll('.choice-grid').forEach(group=>{const name=group.dataset.name;group.querySelectorAll('button').forEach(btn=>{if(btn.dataset.value===state[name])btn.classList.add('active');btn.addEventListener('click',()=>{state[name]=btn.dataset.value;group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn))})})});
-document.getElementById('quickForm').addEventListener('submit',e=>{e.preventDefault();const locality=document.getElementById('localidade').value.trim()||'Por indicar';const type=state.tipo||'Por definir',sit=state.situacao||'Por explicar',area=state.area||'Por indicar';const msg=['Olá. Gostaria de pedir uma avaliação para um trabalho de impermeabilização.',`Zona: ${type}`,`Situação: ${sit}`,`Área aproximada: ${area}`,`Localidade: ${locality}`,'Posso enviar fotografias ou vídeo se ajudar na avaliação.'].join('\n');push('ip_quick_request',{landing_variant:variant,request_type:type,request_situation:sit,request_area:area,page_path:location.pathname+location.search});push('ip_contact_click',{contact_action:'whatsapp_quick_request',landing_variant:variant});window.open('https://wa.me/351930446198?text='+encodeURIComponent(msg),'_blank','noopener,noreferrer')});
-document.querySelectorAll('[data-track]').forEach(a=>a.addEventListener('click',()=>push('ip_phone_click',{placement:a.dataset.track,landing_variant:variant,page_path:location.pathname+location.search})));
-document.querySelectorAll('.wa-direct').forEach(a=>a.addEventListener('click',()=>push('ip_whatsapp_click',{placement:'direct',landing_variant:variant,page_path:location.pathname+location.search})));
+
+const attributionKeys=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid'];
+const currentAttribution={};
+attributionKeys.forEach(key=>{if(params.get(key))currentAttribution[key]=params.get(key)});
+let storedAttribution={};
+try{storedAttribution=JSON.parse(sessionStorage.getItem('ip_attribution')||'{}')}catch(e){}
+const attribution={...storedAttribution,...currentAttribution};
+try{sessionStorage.setItem('ip_attribution',JSON.stringify(attribution))}catch(e){}
+
+const service=document.body.dataset.service||'geral';
+const pagePath=location.pathname+location.search;
+function trackingContext(extra={}){return {landing_page:location.pathname,servico:service,...attribution,...extra}}
+
+const consent=localStorage.getItem('ip_consent');
+const cookie=document.getElementById('cookie');
+if(cookie){
+  if(!consent){cookie.classList.add('show')}
+  else{
+    const granted=consent==='accepted'?'granted':'denied';
+    gtag('consent','update',{ad_storage:granted,analytics_storage:granted,ad_user_data:granted,ad_personalization:granted});
+  }
+  function setConsent(v){
+    localStorage.setItem('ip_consent',v);
+    const granted=v==='accepted'?'granted':'denied';
+    gtag('consent','update',{ad_storage:granted,analytics_storage:granted,ad_user_data:granted,ad_personalization:granted});
+    push('ip_consent_update',{consent_choice:v});
+    cookie.classList.remove('show');
+  }
+  const accept=document.getElementById('accept');
+  const essential=document.getElementById('essential');
+  if(accept)accept.onclick=()=>setConsent('accepted');
+  if(essential)essential.onclick=()=>setConsent('rejected');
+}
+
+const directMessages={
+  geral:'Olá. Gostaria de pedir uma avaliação para um trabalho de impermeabilização.',
+  telhados:'Olá. Gostaria de pedir uma avaliação para impermeabilização de um telhado/cobertura.',
+  terracos:'Olá. Gostaria de pedir uma avaliação para impermeabilização de um terraço/varanda.'
+};
+document.querySelectorAll('.wa-direct').forEach(a=>{
+  a.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(directMessages[service]||directMessages.geral)}`;
+  a.addEventListener('click',()=>push('ip_whatsapp_click',trackingContext({placement:a.dataset.placement||'direct',page_path:pagePath})));
+});
+
+document.querySelectorAll('[data-track]').forEach(a=>a.addEventListener('click',()=>{
+  push('ip_phone_click',trackingContext({placement:a.dataset.track,page_path:pagePath}));
+}));
+
+const quickForm=document.getElementById('quickForm');
+if(quickForm){
+  const state={
+    tipo:service==='telhados'?'Telhado / cobertura':service==='terracos'?'Terraço / varanda':'',
+    situacao:'',
+    area:''
+  };
+  let formStarted=false;
+  function markStart(){
+    if(formStarted)return;
+    formStarted=true;
+    push('form_start',trackingContext({page_path:pagePath}));
+  }
+  quickForm.addEventListener('click',markStart,{once:true});
+  quickForm.addEventListener('focusin',markStart,{once:true});
+
+  document.querySelectorAll('.choice-grid').forEach(group=>{
+    const name=group.dataset.name;
+    group.querySelectorAll('button').forEach(btn=>{
+      if(btn.dataset.value===state[name])btn.classList.add('active');
+      btn.addEventListener('click',()=>{
+        state[name]=btn.dataset.value;
+        group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn));
+      });
+    });
+  });
+
+  quickForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    markStart();
+    const locality=document.getElementById('localidade')?.value.trim()||'';
+    const error=document.getElementById('formError');
+    const missing=[];
+    if(!state.tipo)missing.push('onde é o trabalho');
+    if(!state.situacao)missing.push('o que precisa');
+    if(!locality)missing.push('a localidade');
+    if(missing.length){
+      if(error){error.textContent='Indique '+missing.join(', ')+'.';error.hidden=false}
+      return;
+    }
+    if(error)error.hidden=true;
+    const area=state.area||'Por indicar';
+    const msg=[
+      directMessages[service]||directMessages.geral,
+      `Zona: ${state.tipo}`,
+      `Situação: ${state.situacao}`,
+      `Área aproximada: ${area}`,
+      `Localidade: ${locality}`,
+      'Posso enviar fotografias ou vídeo se ajudar na avaliação.'
+    ].join('\n');
+    push('ip_quick_request',trackingContext({request_type:state.tipo,request_situation:state.situacao,request_area:area,page_path:pagePath}));
+    push('ip_contact_click',trackingContext({contact_action:'whatsapp_quick_request',page_path:pagePath}));
+    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`,'_blank','noopener,noreferrer');
+  });
+}
+
+// Mobile contact bar only appears after the hero and hides around conversion areas.
+const mobileContact=document.getElementById('mobileContact');
+const hero=document.querySelector('.hero');
+if(mobileContact && hero && 'IntersectionObserver' in window){
+  let heroVisible=true;
+  const blocked=new Set();
+  const render=()=>mobileContact.classList.toggle('is-hidden',heroVisible||blocked.size>0||cookie?.classList.contains('show'));
+  new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;render()},{threshold:.08}).observe(hero);
+  ['pedido','cta-final'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting)blocked.add(id);else blocked.delete(id);
+      render();
+    },{threshold:.08}).observe(el);
+  });
+  render();
+}
