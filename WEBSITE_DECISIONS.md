@@ -30,3 +30,9 @@ These are qualitative design comparisons, not measured conversion-rate rankings.
 - Assess real sent messages, qualified requests and accepted quotes. A WhatsApp click alone is not a lead.
 - Add higher-resolution original photographs and verified reviews when available. Do not fabricate missing evidence.
 - No live test message was sent to the business during the code tests.
+
+## Verification and recovered issue
+
+Automated DOM tests passed on all three landing pages: required fields, preselected service, optional/decimal/invalid area, WhatsApp URL encoding, blocked-popup fallback, consent gating, storage failures, no personal answers in analytics and no false lead events. Structural checks passed for anchors, labels and referenced assets. GitHub Pages deployed successfully; desktop hero, live validation, roof and terrace pages were inspected. No message was sent. Full mobile-device and Safari verification remains outstanding because the available browser did not support the attempted mobile viewport preview.
+
+The inherited assets/vinicius-nascimento.webp is invalid (both browser display and image decoder verification failed; historical versions were also invalid). The visible broken portrait was replaced by a named contact panel with initials and telephone/WhatsApp. Restore photography only from a valid original. The old binary is retained for possible recovery and is not referenced by the pages.
