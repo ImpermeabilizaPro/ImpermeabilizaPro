@@ -87,6 +87,16 @@ if(quickForm){
   quickForm.addEventListener('click',markStart,{once:true});
   quickForm.addEventListener('focusin',markStart,{once:true});
 
+  // Old service pages used area ranges. Convert them into an exact-number field at runtime.
+  const legacyAreaGroup=quickForm.querySelector('.choice-grid[data-name="area"]');
+  if(legacyAreaGroup){
+    const fieldset=legacyAreaGroup.closest('fieldset');
+    const step=service==='geral'?'3':'2';
+    if(fieldset){
+      fieldset.outerHTML=`<label class="field area-field">${step}. Quantos m² tem aproximadamente?<div class="area-input"><input id="areaM2" name="areaM2" type="number" inputmode="numeric" min="1" step="1" placeholder="Ex.: 84"><span>m²</span></div><small class="area-help">Escreva um número aproximado em vez de escolher um intervalo.</small><span class="checkline"><input id="areaUnknown" type="checkbox"> Ainda não sei os m²</span></label>`;
+    }
+  }
+
   document.querySelectorAll('.choice-grid').forEach(group=>{
     const name=group.dataset.name;
     if(!name)return;
@@ -115,20 +125,18 @@ if(quickForm){
     const locality=document.getElementById('localidade')?.value.trim()||'';
     const areaValue=areaInput?.value.trim()||'';
     const doesNotKnowArea=!!areaUnknown?.checked;
-    const legacyArea=!areaInput?state.area:'';
     const error=document.getElementById('formError');
     const missing=[];
     if(!state.tipo)missing.push('onde é o trabalho');
     if(!state.situacao)missing.push('o que precisa');
-    if(areaInput && !areaValue && !doesNotKnowArea)missing.push('os m² aproximados ou “Ainda não sei”');
-    if(!areaInput && !legacyArea)missing.push('a área aproximada');
+    if(!areaValue&&!doesNotKnowArea)missing.push('os m² aproximados ou “Ainda não sei”');
     if(!locality)missing.push('a localidade');
     if(missing.length){
       if(error){error.textContent='Indique '+missing.join(', ')+'.';error.hidden=false}
       return;
     }
     if(error)error.hidden=true;
-    const area=areaInput?(doesNotKnowArea?'Não sei':`${areaValue} m²`):legacyArea;
+    const area=doesNotKnowArea?'Não sei':`${areaValue} m²`;
     const msg=[
       directMessages[service]||directMessages.geral,
       `Zona: ${state.tipo}`,
