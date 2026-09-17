@@ -1,12 +1,5 @@
 # ImpermeabilizaPro
 
-Site oficial da ImpermeabilizaPro.
+Website oficial da ImpermeabilizaPro.
 
-- Domínio principal: https://impermeabilizapro.pt
-- Alojamento: GitHub Pages
-- Contacto: 930 446 198
-- Analytics/Ads: Google Tag Manager `GTM-KTCT795B`
-
-## Publicação
-O site é estático e será publicado a partir da raiz da branch `main` no GitHub Pages.
-O ficheiro `CNAME` mantém o domínio personalizado `impermeabilizapro.pt`.
+Versão otimizada para conversão com páginas específicas para impermeabilização geral, telhados/coberturas e terraços/varandas, contacto direto por WhatsApp e telefone, SEO técnico e tracking de intenção.
