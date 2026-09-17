@@ -56,16 +56,14 @@ croStyle.textContent=`
 document.head.appendChild(croStyle);
 
 function applyFinalCRO(){
-  // Homepage: bring the contact action immediately after proof/cases.
   if(service==='geral'){
     const request=document.querySelector('.quick-section');
     const technical=document.querySelector('.technical-authority');
-    if(request&&technical&&technical.compareDocumentPosition(request)&Node.DOCUMENT_POSITION_FOLLOWING){
+    if(request&&technical&&(technical.compareDocumentPosition(request)&Node.DOCUMENT_POSITION_FOLLOWING)){
       technical.parentNode.insertBefore(request,technical);
     }
   }
 
-  // Keep a useful action in the mobile header without adding visual clutter.
   const headerIn=document.querySelector('.header-in');
   if(headerIn&&!headerIn.querySelector('.mobile-header-cta')){
     const a=document.createElement('a');
@@ -75,7 +73,6 @@ function applyFinalCRO(){
     headerIn.appendChild(a);
   }
 
-  // Reduce pressure around m² and make the WhatsApp-only flow explicit.
   const quickCopy=document.querySelector('.quick-copy');
   if(quickCopy){
     const h2=quickCopy.querySelector('h2');
@@ -107,7 +104,6 @@ function applyFinalCRO(){
   const privacy=document.querySelector('#quickForm .privacy');
   if(privacy)privacy.textContent='Ao clicar, abrimos o WhatsApp com a informação preenchida. A mensagem só é enviada quando confirmar no WhatsApp.';
 
-  // Avoid relying on an unverified experience number in the most prominent trust areas.
   document.querySelectorAll('.micro').forEach(el=>{
     el.innerHTML='Não precisa de saber os m² exatos · Fotografias são opcionais · Orçamento gratuito';
   });
@@ -124,7 +120,6 @@ function applyFinalCRO(){
     if(/7 anos/i.test(el.textContent))el.textContent='Vinícius Nascimento · ImpermeabilizaPro';
   });
 
-  // FAQ: reassure visitors who do not know the area yet.
   document.querySelectorAll('.faq-section details').forEach(detail=>{
     const summary=detail.querySelector('summary');
     if(summary&&/m²/i.test(summary.textContent)){
@@ -133,7 +128,6 @@ function applyFinalCRO(){
     }
   });
 
-  // Footer cookie preference control.
   const note=document.querySelector('.footer-note');
   if(note&&!document.getElementById('manageCookies')){
     note.append(' · ');
@@ -145,7 +139,6 @@ function applyFinalCRO(){
     note.appendChild(btn);
   }
 
-  // Improve the final homepage CTA wording.
   if(service==='geral'){
     const final=document.querySelector('#cta-final');
     if(final){
@@ -196,11 +189,19 @@ const directMessages={
 };
 document.querySelectorAll('.wa-direct').forEach(a=>{
   a.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(directMessages[service]||directMessages.geral)}`;
-  a.addEventListener('click',()=>push('ip_whatsapp_click',trackingContext({placement:a.dataset.placement||'direct',page_path:pagePath})));
+  a.addEventListener('click',()=>{
+    const context=trackingContext({placement:a.dataset.placement||'direct',page_path:pagePath,contact_action:'whatsapp'});
+    push('ip_whatsapp_click',context);
+    push('click_whatsapp',context);
+    push('ip_contact_click',context);
+  });
 });
 
 document.querySelectorAll('[data-track]').forEach(a=>a.addEventListener('click',()=>{
-  push('ip_phone_click',trackingContext({placement:a.dataset.track,page_path:pagePath}));
+  const context=trackingContext({placement:a.dataset.track,page_path:pagePath,contact_action:'phone'});
+  push('ip_phone_click',context);
+  push('click_phone',context);
+  push('ip_contact_click',context);
 }));
 
 const quickForm=document.getElementById('quickForm');
@@ -275,12 +276,14 @@ if(quickForm){
       `Localidade: ${locality}`,
       'Se ajudar na avaliação, posso enviar fotografias ou vídeo.'
     ].join('\n');
-    const tracking=trackingContext({request_type:state.tipo,request_situation:state.situacao,request_area:area,page_path:pagePath,form_type:'whatsapp_request_builder'});
+    const tracking=trackingContext({request_type:state.tipo,request_situation:state.situacao,request_area:area,page_path:pagePath,form_type:'whatsapp_request_builder',placement:'request_builder'});
 
-    // This is deliberately a microconversion: opening WhatsApp does not prove a message was sent.
+    // Deliberately a microconversion: opening WhatsApp does not prove the message was sent.
     push('ip_whatsapp_request_prepared',tracking);
+    push('whatsapp_request_prepared',tracking);
     push('ip_quick_request',tracking);
-    push('ip_contact_click',trackingContext({contact_action:'whatsapp_request_prepared',page_path:pagePath}));
+    push('click_whatsapp',tracking);
+    push('ip_contact_click',{...tracking,contact_action:'whatsapp_request_prepared'});
     window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`,'_blank','noopener,noreferrer');
   });
 }
