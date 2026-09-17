@@ -2100,16 +2100,13 @@ form textarea {
   font-size: 12px;
   font-weight: 800;
 }
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
+.project-card {
   transition:
-    opacity 0.55s ease,
-    transform 0.55s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+.project-card:hover {
+  transform: translateY(-3px);
 }
 @media (max-width: 760px) {
   .project-grid {
@@ -2136,8 +2133,7 @@ form textarea {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .project-card {
+    transition: none;
   }
 }
