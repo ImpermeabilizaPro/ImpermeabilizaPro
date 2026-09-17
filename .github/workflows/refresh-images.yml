@@ -1,0 +1,54 @@
+name: Refresh website photos
+
+on:
+  push:
+    paths:
+      - '.github/workflows/refresh-images.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image tooling
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Download high-resolution originals
+        run: |
+          curl -L --fail --retry 2 'https://drive.google.com/uc?export=download&id=1CVaB0KmTMgiWzouvF3kox787NJjWX2RJ' -o /tmp/photo-1.jpg
+          curl -L --fail --retry 2 'https://drive.google.com/uc?export=download&id=1dPgc9hFU6q9Z5iYcQjlw-Mmr2AbMd9aO' -o /tmp/photo-2.jpg
+      - name: Build optimized high-quality WebP images
+        run: |
+          python - <<'PY'
+          from PIL import Image, ImageEnhance
+          from pathlib import Path
+          jobs = [
+              ('/tmp/photo-1.jpg', 'assets/obra-real-cobertura-01.webp'),
+              ('/tmp/photo-2.jpg', 'assets/obra-real-cobertura-02.webp'),
+          ]
+          for src, dst in jobs:
+              im = Image.open(src).convert('RGB')
+              im = im.resize((1200, 675), Image.Resampling.LANCZOS)
+              im = ImageEnhance.Sharpness(im).enhance(1.05)
+              Path(dst).parent.mkdir(parents=True, exist_ok=True)
+              im.save(dst, 'WEBP', quality=74, method=6)
+              print(dst, Image.open(dst).size, Path(dst).stat().st_size)
+          PY
+      - name: Commit refreshed photos
+        run: |
+          git config user.name 'ImpermeabilizaPro'
+          git config user.email 'proimpermeabiliza@gmail.com'
+          git add assets/obra-real-cobertura-01.webp assets/obra-real-cobertura-02.webp
+          if git diff --cached --quiet; then
+            echo 'No image changes to commit.'
+          else
+            git commit -m 'Improve website photo quality'
+            git push origin HEAD:main
+          fi
