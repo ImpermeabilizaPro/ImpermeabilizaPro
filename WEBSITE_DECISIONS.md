@@ -49,3 +49,14 @@ The inherited assets/vinicius-nascimento.webp is invalid (both browser display a
 - Canonical URLs and existing GTM ID preserved. Intrinsic image dimensions corrected. Service/breadcrumb JSON-LD and legal-page metadata added. No fabricated reviews or guarantees.
 - Validation: local assets/links/anchors, unique IDs, one H1 per page, JSON-LD parsing and JavaScript syntax pass. VM checks pass for no-consent blocking, consent expiry/withdrawal, storage failure, WhatsApp client type, exclusion of personal form answers from analytics and absence of false form-submission events. No business message sent.
 - Live GA4/Ads conversion configuration and Search Console coverage are not verified by these code tests. Real-device/mobile rendering remains a separate verification item.
+
+
+## Corporate presentation — 18 September 2026
+
+- Published a consistent navy hero, quieter borders, clearer typography, compact real-work cards and simpler navigation across home, roofs and terraces. Preserved the four original project photographs and service-specific images.
+- Increased the valid portrait to 224×280 desktop / 200×250 mobile, centered without artificial image enhancement.
+- Improved text contrast and secondary text sizes, responsive spacing, cookie-panel overflow, active service navigation and outside-click menu closure. Native photo dialogs now lock background scrolling.
+- Preserved contact numbers, WhatsApp preparation, the existing GA4/GTM configuration, consent behavior, canonical .pt URLs and all legal-page content. No Google Ads campaigns changed.
+- Validation: structural checks for all three landing pages (assets, anchors, IDs, one H1 and JSON-LD), JavaScript syntax, successful GitHub Pages deployment, live desktop visual review, gallery open/close, required-field validation and service preselection. No business messages sent.
+- Cloud browser cannot access the local preview and does not expose viewport resizing. Responsive CSS was updated, but a real mobile-device visual check is still outstanding.
+- The prior legal/operator-data and live Ads/analytics configuration follow-ups remain outstanding; this design revision does not certify those.
