@@ -74,7 +74,7 @@ function readAttribution() {
   } catch {}
 }
 function track(event, extra = {}) {
-  if (consent !== "accepted") return;
+  if (consent !== "accepted") return false;
   const payload = {
     landing_page: location.pathname,
     servico: service,
@@ -82,7 +82,9 @@ function track(event, extra = {}) {
     ...extra,
   };
   window.dataLayer.push({ event, ...payload });
-  window.gtag("event", event, payload);
+  // GTM receives the object above; direct analytics events target this GA4 only.
+  window.gtag("event", event, { ...payload, send_to: GA4_ID });
+  return true;
 }
 
 function trackLeadIntent(channel, placement) {
@@ -210,9 +212,10 @@ document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
 document
   .querySelectorAll('a[href^="mailto:"]')
   .forEach((link) =>
-    link.addEventListener("click", () =>
-      track("ip_email_click", { contact_action: "email" }),
-    ),
+    link.addEventListener("click", () => {
+      track("ip_email_click", { contact_action: "email" });
+      trackLeadIntent("email", "email_link");
+    }),
   );
 document.querySelectorAll(".mobile-menu a").forEach((link) =>
   link.addEventListener("click", () => {
@@ -231,8 +234,7 @@ if (form) {
   let started = false;
   const markStart = () => {
     if (!started) {
-      track("form_start", { form_type: "whatsapp_request_builder" });
-      started = true;
+      started = track("form_start", { form_type: "whatsapp_request_builder" });
     }
   };
   form.addEventListener("input", markStart);
@@ -310,12 +312,13 @@ if (form) {
     trackLeadIntent("whatsapp", "request_builder");
     window.open(url, "_blank", "noopener,noreferrer");
   });
-  requestLink.addEventListener("click", () =>
+  requestLink.addEventListener("click", () => {
     track("ip_whatsapp_click", {
       placement: "request_fallback",
       contact_action: "whatsapp",
-    }),
-  );
+    });
+    trackLeadIntent("whatsapp", "request_fallback");
+  });
 }
 
 document.querySelectorAll(".faq-section details").forEach((item, index) => {
@@ -330,8 +333,9 @@ if ("IntersectionObserver" in window) {
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting || seenSections.has(entry.target.id)) return;
-        seenSections.add(entry.target.id);
-        track("ip_section_view", { section_id: entry.target.id });
+        if (track("ip_section_view", { section_id: entry.target.id })) {
+          seenSections.add(entry.target.id);
+        }
       });
     },
     { threshold: 0.35 },
@@ -350,8 +354,9 @@ function measureScrollDepth() {
   const depth = Math.round((scrollY / scrollable) * 100);
   [25, 50, 75, 90].forEach((mark) => {
     if (depth >= mark && !reachedDepths.has(mark)) {
-      reachedDepths.add(mark);
-      track("ip_scroll_depth", { percent_scrolled: mark });
+      if (track("ip_scroll_depth", { percent_scrolled: mark })) {
+        reachedDepths.add(mark);
+      }
     }
   });
 }
