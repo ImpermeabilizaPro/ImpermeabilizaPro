@@ -2137,3 +2137,47 @@ form textarea {
     transition: none;
   }
 }
+
+/* September 18: compact proof, clear client paths and readable legal navigation. */
+.project-grid { grid-template-columns: repeat(4,minmax(0,1fr)); gap:18px; }
+.project-card { background:#fff; color:var(--navy); box-shadow:0 8px 24px #01101e20; }
+.project-card img { display:block; height:auto; aspect-ratio:16/9; object-fit:cover; }
+.project-card-copy { padding:18px; }
+.project-card-copy > span { color:#235985; font-size:12px; }
+.project-card-copy h3 { color:var(--navy); font-size:20px; line-height:1.25; }
+.project-card-copy p { color:#455f73; font-size:14px; }
+.photo-open { display:block; padding:0; border:0; width:100%; background:transparent; cursor:zoom-in; position:relative; }
+.photo-open::after { content:'Ampliar foto'; position:absolute; bottom:10px; right:10px; padding:5px 9px; border-radius:5px; background:#071d34e8; color:#fff; font-size:12px; }
+.work-photo { width:100%; max-width:480px; margin-inline:auto; }
+.work-photo img { height:auto; aspect-ratio:16/10; }
+.contact-profile { align-items:center; text-align:center; }
+.contact-photo { width:180px; height:225px; max-width:100%; border-radius:16px; object-fit:cover; object-position:center; border:0; }
+.contact-profile .contact-experience { font-size:14px; margin:0; }
+.audience-section { background:#f1f6fa; }
+.audience-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.audience-grid article { padding:32px; background:#fff; border:1px solid #d4e1ea; border-radius:16px; }
+.audience-grid h3 { font-size:25px; line-height:1.25; color:var(--navy); margin:12px 0; }
+.audience-grid p:not(.eyebrow) { color:var(--muted); line-height:1.7; }
+.audience-grid .btn { margin-top:12px; }
+.client-field { display:block; margin-bottom:20px; }
+footer { background:#0a2340; color:#dae6f0; padding:48px 0 30px; }
+.footer-main { display:grid; grid-template-columns:1.1fr 1.2fr 1fr; gap:36px; }
+.footer-main h2 { font-size:16px; color:white; margin:0 0 16px; }
+.footer-main p { font-size:14px; line-height:1.75; color:#c5d4e3; }
+.footer-main small { display:block; margin:6px 0 14px; color:#c5d4e3; font-size:12px; }
+.footer-main a { color:#fff; font-size:14px; overflow-wrap:anywhere; text-underline-offset:4px; }
+.footer-main nav a { display:block; padding:7px 0; }
+.footer-main .foot-brand { min-width:0; }
+.foot-brand img { width:64px; height:64px; padding:0; background:transparent; border-radius:50%; clip-path:circle(47% at 50% 50%); }
+.footer-legal { border-top:1px solid #ffffff30; margin-top:32px; padding-top:22px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:20px; }
+.footer-legal nav { display:flex; flex-wrap:wrap; gap:12px 22px; }
+.footer-legal a, .footer-legal button { font-size:14px; color:#e3edf5; line-height:1.6; text-underline-offset:4px; }
+.footer-legal small { color:#c5d4e3; }
+.photo-dialog { border:0; border-radius:14px; padding:16px; background:#fff; max-width:min(1100px,94vw); max-height:94vh; }
+.photo-dialog::backdrop { background:#031426df; }
+.photo-dialog img { display:block; width:auto; height:auto; max-width:100%; max-height:73vh; margin:auto; object-fit:contain; }
+.photo-dialog button { display:block; margin:0 0 12px auto; min-height:44px; padding:10px 18px; border:1px solid #acbdcd; border-radius:8px; background:#f1f6fa; color:#0a2340; font:inherit; cursor:pointer; }
+.photo-dialog p { color:#0a2340; font-size:14px; margin:14px 0 0; }
+@media(max-width:1050px) { .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .footer-main {grid-template-columns:1fr 1fr;} }
+@media(max-width:760px) { .audience-grid,.footer-main {grid-template-columns:1fr;} .audience-grid article{padding:24px;} .project-grid {gap:16px;} .project-card-copy{padding:16px;} .project-card-copy h3{font-size:18px;} .contact-photo{width:160px;height:200px;} .footer-main{gap:28px;} .footer-legal nav{flex-direction:column;align-items:flex-start;} footer{padding-bottom:110px;} }
+@media(max-width:520px) { .project-grid{grid-template-columns:1fr;max-width:350px;margin-inline:auto;} .project-card img{max-height:190px;} }

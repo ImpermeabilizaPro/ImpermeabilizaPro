@@ -26,7 +26,9 @@ const storage = {
     } catch {}
   },
 };
-let consent = storage.get("ip_consent");
+const CONSENT_LIFETIME = 183 * 24 * 60 * 60 * 1000;
+const consentTime = Number(storage.get("ip_consent_at"));
+let consent = consentTime && Date.now() - consentTime < CONSENT_LIFETIME ? storage.get("ip_consent") : null;
 let attribution = {};
 const attributionKeys = [
   "utm_source",
@@ -100,10 +102,22 @@ const cookie = document.getElementById("cookie");
 if (consent === "accepted" || consent === "rejected") applyConsent(consent);
 else cookie?.classList.add("show");
 function setConsent(value) {
+  const revokeLoadedTags = value === "rejected" && window.__gtmLoaded;
   storage.set("ip_consent", value);
+  storage.set("ip_consent_at", String(Date.now()));
   applyConsent(value);
   cookie?.classList.remove("show");
   window.dispatchEvent(new Event("ip:consent-panel"));
+  if (revokeLoadedTags) {
+    // Unload previously consented third-party tags; the next page load keeps GTM blocked.
+    document.cookie.split(";").forEach((item) => {
+      const name = item.split("=")[0].trim();
+      if (!/^(_ga|_gid|_gat|_gcl_)/.test(name)) return;
+      const domains = ["", location.hostname, "." + location.hostname];
+      for (const domain of domains) document.cookie = `${name}=; Max-Age=0; path=/;${domain ? " domain=" + domain + ";" : ""} SameSite=Lax; Secure`;
+    });
+    location.reload();
+  }
 }
 document
   .getElementById("accept")
@@ -221,6 +235,7 @@ if (form) {
       `Situação: ${form.elements.situacao.value}`,
       `Área aproximada: ${area.value ? area.value + " m²" : "Ainda não sei"}`,
     ];
+    if (form.elements.cliente?.value) lines.push(`Tipo de cliente: ${form.elements.cliente.value}`);
     const description = form.elements.descricao.value.trim();
     if (description) lines.push(`Detalhes: ${description}`);
     const paidOrigin =
@@ -337,4 +352,40 @@ if (mobileContact && hero && "IntersectionObserver" in window) {
   document.querySelector(".mobile-menu")?.addEventListener("toggle", render);
   window.addEventListener("ip:consent-panel", render);
   render();
+}
+
+// Client paths keep the same short request and preselect only a non-required field.
+document.querySelectorAll("[data-client]").forEach(link => {
+  link.addEventListener("click", () => {
+    if (form?.elements.cliente) {
+      form.elements.cliente.value = link.dataset.client;
+      form.dispatchEvent(new Event("change"));
+    }
+  });
+});
+
+// Full-size real photographs, opened on demand without duplicating visible gallery images.
+const photos = document.querySelectorAll(".project-card > img, .work-photo > img");
+if (photos.length && typeof HTMLDialogElement !== "undefined") {
+  const dialog = document.createElement("dialog");
+  dialog.className = "photo-dialog";
+  dialog.setAttribute("aria-label", "Fotografia da obra");
+  const close = document.createElement("button");
+  close.type = "button"; close.textContent = "Fechar fotografia";
+  const photo = document.createElement("img");
+  const caption = document.createElement("p");
+  dialog.append(close, photo, caption); document.body.append(dialog);
+  close.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
+  photos.forEach(img => {
+    const button = document.createElement("button");
+    button.type = "button"; button.className = "photo-open";
+    button.setAttribute("aria-label", "Ampliar: " + img.alt);
+    img.before(button); button.append(img);
+    button.addEventListener("click", () => {
+      photo.src = img.src; photo.alt = img.alt; caption.textContent = img.alt;
+      dialog.showModal();
+      track("ip_work_photo_open", { photo_id: img.src.split("/").pop() });
+    });
+  });
 }

@@ -36,3 +36,16 @@ These are qualitative design comparisons, not measured conversion-rate rankings.
 Automated DOM tests passed on all three landing pages: required fields, preselected service, optional/decimal/invalid area, WhatsApp URL encoding, blocked-popup fallback, consent gating, storage failures, no personal answers in analytics and no false lead events. Structural checks passed for anchors, labels and referenced assets. GitHub Pages deployed successfully; desktop hero, live validation, roof and terrace pages were inspected. No message was sent. Full mobile-device and Safari verification remains outstanding because the available browser did not support the attempted mobile viewport preview.
 
 The inherited assets/vinicius-nascimento.webp is invalid (both browser display and image decoder verification failed; historical versions were also invalid). The visible broken portrait was replaced by a named contact panel with initials and telephone/WhatsApp. Restore photography only from a valid original. The old binary is retained for possible recovery and is not referenced by the pages.
+
+## User corrections — 18 September 2026
+
+- Portfolio now uses compact four-column desktop cards, two-column tablet cards and bounded mobile cards. Card text contrast fixed. Full-size originals can be opened in an accessible native dialog. Existing 1200px images preserved without artificial upscaling.
+- Valid 720×900 Vinícius portrait is now larger, centered and shown as a 4:5 portrait. The older invalid-image note above is superseded by the valid assets in the current repository.
+- Roof gallery now uses obra-real-cobertura-02.webp; hero retains hero-telhados-real.webp. The old gallery file was another encoding/crop of the hero photograph.
+- Home remains focused on household needs, with distinct Particular and Business/Condominium sections leading into the same short WhatsApp builder. Client type is optional.
+- Footer has legible privacy, cookies, preference management, legal/contact and official complaints-portal links. Logo's exterior white square is visually clipped; original artwork is preserved.
+- Privacy expanded with purposes, rights/CNPD, storage, third-party services and withdrawal. No NIF published. Legal completeness is NOT certified: legal operator identity/address, applicable arbitration entity and specific electronic complaints registration still need business confirmation. The portal link is general, not proof of registration.
+- Consent expires after 183 days. Withdrawal clears first-party Google cookie names and reloads to unload already-loaded tags. No third-party tags before consent. Removed pre-consent Google preconnect.
+- Canonical URLs and existing GTM ID preserved. Intrinsic image dimensions corrected. Service/breadcrumb JSON-LD and legal-page metadata added. No fabricated reviews or guarantees.
+- Validation: local assets/links/anchors, unique IDs, one H1 per page, JSON-LD parsing and JavaScript syntax pass. VM checks pass for no-consent blocking, consent expiry/withdrawal, storage failure, WhatsApp client type, exclusion of personal form answers from analytics and absence of false form-submission events. No business message sent.
+- Live GA4/Ads conversion configuration and Search Console coverage are not verified by these code tests. Real-device/mobile rendering remains a separate verification item.
