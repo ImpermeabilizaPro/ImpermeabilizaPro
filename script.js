@@ -1,5 +1,19 @@
 "use strict";
 const PHONE = "351930446198";
+const GA4_ID = "G-BBSN5Z50XK";
+window.dataLayer = window.dataLayer || [];
+window.gtag =
+  window.gtag ||
+  function () {
+    window.dataLayer.push(arguments);
+  };
+window.gtag("consent", "default", {
+  ad_storage: "denied",
+  analytics_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
+  wait_for_update: 500,
+});
 const params = new URLSearchParams(location.search);
 if (
   location.pathname === "/" &&
@@ -61,27 +75,42 @@ function readAttribution() {
 }
 function track(event, extra = {}) {
   if (consent !== "accepted") return;
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event,
+  const payload = {
     landing_page: location.pathname,
     servico: service,
     ...attribution,
     ...extra,
+  };
+  window.dataLayer.push({ event, ...payload });
+  window.gtag("event", event, payload);
+}
+function loadGa4() {
+  if (window.__ga4Loaded) return;
+  window.__ga4Loaded = true;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src =
+    "https://www.googletagmanager.com/gtag/js?id=" +
+    encodeURIComponent(GA4_ID);
+  document.head.appendChild(script);
+  window.gtag("js", new Date());
+  window.gtag("config", GA4_ID, {
+    send_page_view: true,
+    page_path: location.pathname + location.search,
   });
 }
 function applyConsent(value) {
   consent = value;
   const granted = value === "accepted" ? "granted" : "denied";
-  if (typeof gtag === "function")
-    gtag("consent", "update", {
-      ad_storage: granted,
-      analytics_storage: granted,
-      ad_user_data: granted,
-      ad_personalization: granted,
-    });
+  window.gtag("consent", "update", {
+    ad_storage: granted,
+    analytics_storage: granted,
+    ad_user_data: granted,
+    ad_personalization: granted,
+  });
   if (value === "accepted") {
     readAttribution();
+    loadGa4();
     if (!window.__gtmLoaded) {
       window.__gtmLoaded = true;
       window.dataLayer = window.dataLayer || [];
