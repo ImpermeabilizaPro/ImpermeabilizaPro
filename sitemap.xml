@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://impermeabilizapro.pt/</loc></url>
-  <url><loc>https://impermeabilizapro.pt/telhados/</loc></url>
-  <url><loc>https://impermeabilizapro.pt/terracos/</loc></url>
-  <url><loc>https://impermeabilizapro.pt/privacidade/</loc></url>
-  <url><loc>https://impermeabilizapro.pt/informacoes-legais/</loc></url>
+  <url><loc>https://impermeabilizapro.pt/</loc><lastmod>2026-09-18</lastmod></url>
+  <url><loc>https://impermeabilizapro.pt/telhados/</loc><lastmod>2026-09-18</lastmod></url>
+  <url><loc>https://impermeabilizapro.pt/terracos/</loc><lastmod>2026-09-18</lastmod></url>
 </urlset>
