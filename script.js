@@ -84,6 +84,23 @@ function track(event, extra = {}) {
   window.dataLayer.push({ event, ...payload });
   window.gtag("event", event, payload);
 }
+
+function trackLeadIntent(channel, placement) {
+  if (consent !== "accepted") return;
+  const key = "ip_contact_intent_counted";
+  try {
+    if (sessionStorage.getItem(key) === "1") return;
+    sessionStorage.setItem(key, "1");
+  } catch {
+    if (window.__ipContactIntentCounted) return;
+    window.__ipContactIntentCounted = true;
+  }
+  track("ip_contact_intent", {
+    contact_action: channel,
+    placement,
+    lead_scope: "one_per_session",
+  });
+}
 function loadGa4() {
   if (window.__ga4Loaded) return;
   window.__ga4Loaded = true;
@@ -171,20 +188,24 @@ function whatsappUrl(message) {
 }
 document.querySelectorAll(".wa-direct").forEach((link) => {
   link.href = whatsappUrl(messages[service] || messages.geral);
-  link.addEventListener("click", () =>
+  link.addEventListener("click", () => {
+    const placement = link.dataset.placement || "direct";
     track("ip_whatsapp_click", {
-      placement: link.dataset.placement || "direct",
+      placement,
       contact_action: "whatsapp",
-    }),
-  );
+    });
+    trackLeadIntent("whatsapp", placement);
+  });
 });
 document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
-  link.addEventListener("click", () =>
+  link.addEventListener("click", () => {
+    const placement = link.dataset.track || "footer";
     track("ip_phone_click", {
-      placement: link.dataset.track || "footer",
+      placement,
       contact_action: "phone",
-    }),
-  ),
+    });
+    trackLeadIntent("phone", placement);
+  }),
 );
 document
   .querySelectorAll('a[href^="mailto:"]')
@@ -286,6 +307,7 @@ if (form) {
       placement: "request_builder",
       contact_action: "whatsapp",
     });
+    trackLeadIntent("whatsapp", "request_builder");
     window.open(url, "_blank", "noopener,noreferrer");
   });
   requestLink.addEventListener("click", () =>
