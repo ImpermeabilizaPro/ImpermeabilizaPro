@@ -129,7 +129,7 @@
             </p>
             <div class="hero-actions">
               <a class="btn primary big" href="#pedido"
-                >Pedir orçamento pelo WhatsApp</a
+                >Preparar pedido de orçamento</a
               ><a
                 class="btn outline big wa-direct"
                 data-placement="hero"
@@ -305,6 +305,62 @@
                 >proimpermeabiliza@gmail.com</a
               >.
             </p>
+
+          <details class="callback-box">
+            <summary>Prefere que liguemos?</summary>
+            <p>
+              Deixe o seu número e a localidade. Entramos em contacto para perceber o pedido, sem precisar de concluir pelo WhatsApp.
+            </p>
+            <form
+              class="callback-form"
+              name="callback"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+            >
+              <input type="hidden" name="form-name" value="callback" />
+              <input type="hidden" name="pagina" value="" />
+              <input type="hidden" name="utm_source" value="" />
+              <input type="hidden" name="utm_medium" value="" />
+              <input type="hidden" name="utm_campaign" value="" />
+              <input type="hidden" name="utm_term" value="" />
+              <input type="hidden" name="gclid" value="" />
+              <input type="hidden" name="gbraid" value="" />
+              <input type="hidden" name="wbraid" value="" />
+              <input type="hidden" name="referrer" value="" />
+              <p class="hp-field" hidden>
+                <label>Não preencher: <input name="bot-field" /></label>
+              </p>
+              <label>
+                Telemóvel *
+                <input
+                  autocomplete="tel"
+                  inputmode="tel"
+                  maxlength="30"
+                  name="telefone"
+                  placeholder="Ex.: 912 345 678"
+                  required
+                  type="tel"
+                />
+              </label>
+              <label>
+                Localidade <span class="optional">(opcional)</span>
+                <input
+                  autocomplete="address-level2"
+                  maxlength="120"
+                  name="localidade_callback"
+                  placeholder="Ex.: Loures"
+                  type="text"
+                />
+              </label>
+              <button class="btn outline full" type="submit">Pedir contacto</button>
+              <p class="callback-privacy">
+                Usamos estes dados apenas para dar seguimento ao seu pedido.
+                <a href="/privacidade/">Privacidade</a>
+              </p>
+              <p class="callback-status" hidden role="status"></p>
+            </form>
+          </details>
           </div>
           <form
             aria-labelledby="request-title"
@@ -674,7 +730,7 @@
           </div>
           <div class="final-actions">
             <a class="btn primary big" href="#pedido"
-              >Preparar pedido pelo WhatsApp</a
+              >Preparar pedido de orçamento</a
             ><a
               class="btn wa-dark big wa-direct"
               data-placement="final"
