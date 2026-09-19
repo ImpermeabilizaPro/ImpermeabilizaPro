@@ -87,8 +87,7 @@ function track(event, extra = {}) {
     ...attribution,
     ...extra,
   };
-  window.dataLayer.push({ event, ...payload });
-  // GTM receives the object above; direct analytics events target this GA4 only.
+  // Send each website event once, directly to this GA4 property.
   window.gtag("event", event, { ...payload, send_to: GA4_ID });
   return true;
 }
@@ -151,15 +150,9 @@ function applyConsent(value) {
   if (value === "accepted") {
     readAttribution();
     loadGa4();
-    if (!window.__gtmLoaded) {
-      window.__gtmLoaded = true;
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
-      const script = document.createElement("script");
-      script.async = true;
-      script.src = "https://www.googletagmanager.com/gtm.js?id=GTM-KTCT795B";
-      document.head.appendChild(script);
-    }
+    // The legacy GTM container is intentionally not loaded here. Tracking is
+    // handled directly by the Google tag to avoid duplicate events and old
+    // conversion triggers while the container configuration is being retired.
   } else {
     attribution = {};
     try {
@@ -171,7 +164,7 @@ const cookie = document.getElementById("cookie");
 if (consent === "accepted" || consent === "rejected") applyConsent(consent);
 else cookie?.classList.add("show");
 function setConsent(value) {
-  const revokeLoadedTags = value === "rejected" && window.__gtmLoaded;
+  const revokeLoadedTags = value === "rejected" && window.__ga4Loaded;
   storage.set("ip_consent", value);
   storage.set("ip_consent_at", String(Date.now()));
   applyConsent(value);
