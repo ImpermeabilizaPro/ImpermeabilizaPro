@@ -500,66 +500,51 @@ document.addEventListener("click", (event) => {
 });
 
 
-// Optional callback form: captures visitors who prefer a phone call instead of finishing in WhatsApp.
+// Optional callback form: sends a prefilled WhatsApp request for visitors who prefer a phone call.
 const callbackForms = document.querySelectorAll(".callback-form");
 callbackForms.forEach((callbackForm) => {
   const status = callbackForm.querySelector(".callback-status");
-  const submitButton = callbackForm.querySelector('button[type="submit"]');
-  const hidden = (name) => callbackForm.elements.namedItem(name);
-  if (hidden("pagina")) hidden("pagina").value = location.pathname;
-  if (hidden("referrer")) hidden("referrer").value = document.referrer.slice(0, 500);
-  for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "gclid", "gbraid", "wbraid"]) {
-    if (hidden(key)) hidden(key).value = String(attribution[key] || params.get(key) || "").slice(0, 250);
-  }
 
-  callbackForm.addEventListener("submit", async (event) => {
+  callbackForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (!callbackForm.reportValidity()) return;
 
-    const phone = String(callbackForm.elements.telefone?.value || "").replace(/\D/g, "");
-    if (phone.length < 9) {
+    const rawPhone = String(callbackForm.elements.telefone?.value || "").trim();
+    const phoneDigits = rawPhone.replace(/\D/g, "");
+    const locality = String(callbackForm.elements.localidade_callback?.value || "").trim();
+
+    if (phoneDigits.length < 9) {
       status.hidden = false;
       status.textContent = "Confirme o número de telemóvel.";
       callbackForm.elements.telefone?.focus();
       return;
     }
 
-    const originalText = submitButton.textContent;
-    submitButton.disabled = true;
-    submitButton.textContent = "A enviar…";
-    status.hidden = true;
+    const lines = [
+      "Olá, prefiro que me liguem para dar seguimento ao meu pedido.",
+      "",
+      "Telemóvel: " + rawPhone,
+      locality ? "Localidade: " + locality : "",
+    ].filter(Boolean);
 
-    try {
-      const data = new URLSearchParams(new FormData(callbackForm));
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: data.toString(),
-      });
-      if (!response.ok) throw new Error("callback_submit_failed");
-
-      track("ip_callback_submit", {
-        form_type: "callback_request",
-        contact_action: "callback",
-        measurement_type: "submitted_form",
-        verification_status: "submitted_to_netlify",
-      });
-      trackLeadIntent("callback", "callback_form");
-
-      callbackForm.reset();
-      if (hidden("pagina")) hidden("pagina").value = location.pathname;
-      status.hidden = false;
-      status.textContent = "Pedido recebido. Vamos usar este número para dar seguimento ao contacto.";
-    } catch {
-      track("ip_callback_error", {
-        form_type: "callback_request",
-        measurement_type: "submission_error",
-      });
-      status.hidden = false;
-      status.textContent = "Não foi possível enviar agora. Pode ligar ou usar o WhatsApp acima.";
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = originalText;
+    if (attribution.gclid || attribution.gbraid || attribution.wbraid) {
+      lines.push("", "Origem do pedido: Google Ads");
     }
+
+    const whatsappUrl =
+      "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(lines.join("\n"));
+
+    track("ip_callback_whatsapp_open", {
+      form_type: "callback_request",
+      contact_action: "whatsapp",
+      measurement_type: "click_only_message_not_confirmed_sent",
+      verification_status: "whatsapp_opened_not_message_confirmed",
+    });
+    trackLeadIntent("whatsapp", "callback_form");
+
+    status.hidden = false;
+    status.textContent = "A mensagem está preparada. Confirme o envio no WhatsApp para recebermos o pedido.";
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   });
 });
+
