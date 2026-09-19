@@ -557,7 +557,7 @@ if (heroSlideImage) {
   const heroImagePaths = [
     "/assets/foto-real-20260915-162914.jpeg",
     "/assets/foto-real-20260915-162859.jpeg",
-    "/assets/foto-real-20260917-01.jpeg",
+    "/assets/caso-aroeira-3000m2.webp",
     "/assets/foto-real-20260915-161418.jpeg",
     "/assets/foto-real-20260915-161929.jpeg",
     "/assets/foto-real-20260909-151643.jpeg",
@@ -565,7 +565,7 @@ if (heroSlideImage) {
   const heroImageAlts = [
     "Cobertura real impermeabilizada com tela asfáltica",
     "Execução real de impermeabilização numa cobertura",
-    "Trabalho real de impermeabilização em cobertura plana",
+    "Impermeabilização real de paredes enterradas numa obra",
     "Detalhe real de trabalho de impermeabilização",
     "Aplicação real de impermeabilização numa cobertura",
     "Execução real de impermeabilização em obra",
