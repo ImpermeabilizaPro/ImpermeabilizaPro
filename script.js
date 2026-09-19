@@ -48,11 +48,16 @@ const attributionKeys = [
   "utm_source",
   "utm_medium",
   "utm_campaign",
+  "utm_id",
   "utm_term",
   "utm_content",
+  "utm_source_platform",
+  "utm_creative_format",
+  "utm_marketing_tactic",
   "gclid",
   "gbraid",
   "wbraid",
+  "dclid",
 ];
 function readAttribution() {
   try {
@@ -76,7 +81,7 @@ function readAttribution() {
 function track(event, extra = {}) {
   if (consent !== "accepted") return false;
   const payload = {
-    landing_page: location.pathname,
+    page_path: location.pathname,
     servico: service,
     ...attribution,
     ...extra,
@@ -87,17 +92,25 @@ function track(event, extra = {}) {
   return true;
 }
 
-function trackLeadIntent(channel, placement) {
-  if (consent !== "accepted") return;
-  const key = "ip_contact_intent_counted";
+function claimSessionOnce(key) {
   try {
-    if (sessionStorage.getItem(key) === "1") return;
+    if (sessionStorage.getItem(key) === "1") return false;
     sessionStorage.setItem(key, "1");
+    return true;
   } catch {
-    if (window.__ipContactIntentCounted) return;
-    window.__ipContactIntentCounted = true;
+    const fallbackKey = "__" + key.replace(/[^a-z0-9_]/gi, "_");
+    if (window[fallbackKey]) return false;
+    window[fallbackKey] = true;
+    return true;
   }
-  track("ip_contact_intent", {
+}
+function trackOncePerSession(event, key, extra = {}) {
+  if (consent !== "accepted") return false;
+  if (!claimSessionOnce(key)) return false;
+  return track(event, { ...extra, event_scope: "one_per_session" });
+}
+function trackLeadIntent(channel, placement) {
+  trackOncePerSession("ip_contact_intent", "ip_contact_intent_counted", {
     contact_action: channel,
     placement,
     lead_scope: "one_per_session",
@@ -192,7 +205,7 @@ document.querySelectorAll(".wa-direct").forEach((link) => {
   link.href = whatsappUrl(messages[service] || messages.geral);
   link.addEventListener("click", () => {
     const placement = link.dataset.placement || "direct";
-    track("ip_whatsapp_click", {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_counted", {
       placement,
       contact_action: "whatsapp",
     });
@@ -202,7 +215,7 @@ document.querySelectorAll(".wa-direct").forEach((link) => {
 document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
   link.addEventListener("click", () => {
     const placement = link.dataset.track || "footer";
-    track("ip_phone_click", {
+    trackOncePerSession("ip_phone_click", "ip_phone_click_counted", {
       placement,
       contact_action: "phone",
     });
@@ -213,7 +226,10 @@ document
   .querySelectorAll('a[href^="mailto:"]')
   .forEach((link) =>
     link.addEventListener("click", () => {
-      track("ip_email_click", { contact_action: "email" });
+      trackOncePerSession("ip_email_click", "ip_email_click_counted", {
+        contact_action: "email",
+        placement: "email_link",
+      });
       trackLeadIntent("email", "email_link");
     }),
   );
@@ -276,6 +292,10 @@ if (form) {
       error.hidden = false;
       invalid.setAttribute("aria-invalid", "true");
       invalid.setAttribute("aria-errormessage", "formError");
+      track("ip_form_validation_error", {
+        form_type: "whatsapp_request_builder",
+        error_field: invalid.name || invalid.id || "unknown",
+      });
       invalid.focus();
       return;
     }
@@ -305,7 +325,7 @@ if (form) {
     track("ip_whatsapp_request_prepared", {
       form_type: "whatsapp_request_builder",
     });
-    track("ip_whatsapp_click", {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_counted", {
       placement: "request_builder",
       contact_action: "whatsapp",
     });
@@ -313,13 +333,27 @@ if (form) {
     window.open(url, "_blank", "noopener,noreferrer");
   });
   requestLink.addEventListener("click", () => {
-    track("ip_whatsapp_click", {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_counted", {
       placement: "request_fallback",
       contact_action: "whatsapp",
     });
     trackLeadIntent("whatsapp", "request_fallback");
   });
 }
+
+document
+  .querySelectorAll('a[href="#pedido"], a[href="/#pedido"]')
+  .forEach((link) =>
+    link.addEventListener("click", () => {
+      const container = link.closest("section, header, footer");
+      const placement =
+        link.dataset.placement ||
+        container?.id ||
+        container?.classList?.[0] ||
+        "unknown";
+      track("ip_quote_cta_click", { placement });
+    }),
+  );
 
 document.querySelectorAll(".faq-section details").forEach((item, index) => {
   item.addEventListener("toggle", () => {
