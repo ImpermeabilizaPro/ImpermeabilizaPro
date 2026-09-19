@@ -18,7 +18,7 @@ window.gtag("consent", "default", {
 const params = new URLSearchParams(location.search);
 if (
   location.pathname === "/" &&
-  ["telhados", "terracos"].includes(params.get("servico"))
+  ["telhados", "terracos", "paredes"].includes(params.get("servico"))
 ) {
   const legacy = params.get("servico");
   params.delete("servico");
@@ -198,6 +198,8 @@ const messages = {
     "Olá! Gostaria de pedir um orçamento para impermeabilizar um telhado ou cobertura.",
   terracos:
     "Olá! Gostaria de pedir um orçamento para impermeabilizar um terraço ou varanda.",
+  paredes:
+    "Olá! Gostaria de pedir um orçamento para impermeabilizar uma parede.",
 };
 function whatsappUrl(message) {
   return `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
