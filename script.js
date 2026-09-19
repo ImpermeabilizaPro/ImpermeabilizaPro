@@ -549,59 +549,85 @@ callbackForms.forEach((callbackForm) => {
 });
 
 
-
-// Homepage hero slider: real-work photography, 3-second premium fade.
-const heroSlider = document.querySelector("[data-hero-slider]");
-if (heroSlider) {
-  const slides = [...heroSlider.querySelectorAll(".hero-slide")];
-  const dots = [...heroSlider.querySelectorAll(".hero-dot")];
+// Homepage contained hero slider: one image element only, avoiding layout jumps.
+const heroSlideImage = document.getElementById("heroSlideImage");
+if (heroSlideImage) {
+  const heroImages = [
+    {
+      src: "/assets/foto-real-20260915-162914.jpeg",
+      alt: "Cobertura real impermeabilizada com tela asfáltica",
+    },
+    {
+      src: "/assets/foto-real-20260915-162859.jpeg",
+      alt: "Execução real de impermeabilização numa cobertura",
+    },
+    {
+      src: "/assets/foto-real-20260917-01.jpeg",
+      alt: "Trabalho real de impermeabilização em cobertura plana",
+    },
+  ];
+  const heroDots = [...document.querySelectorAll(".hero-media-card .hero-dot")];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let heroIndex = 0;
-  let heroTimer = null;
+  let heroImageIndex = 0;
+  let heroImageTimer = null;
 
-  function showHeroSlide(nextIndex) {
-    if (!slides.length) return;
-    heroIndex = (nextIndex + slides.length) % slides.length;
-    slides.forEach((slide, index) => {
-      slide.classList.toggle("is-active", index === heroIndex);
-    });
-    dots.forEach((dot, index) => {
-      const active = index === heroIndex;
-      dot.classList.toggle("is-active", active);
-      if (active) dot.setAttribute("aria-current", "true");
-      else dot.removeAttribute("aria-current");
-    });
-  }
+  heroImages.slice(1).forEach(({ src }) => {
+    const preload = new Image();
+    preload.src = src;
+  });
 
-  function stopHeroSlider() {
-    if (heroTimer) {
-      clearInterval(heroTimer);
-      heroTimer = null;
+  function renderHeroImage(index, animate = true) {
+    heroImageIndex = (index + heroImages.length) % heroImages.length;
+    const next = heroImages[heroImageIndex];
+
+    const apply = () => {
+      heroSlideImage.src = next.src;
+      heroSlideImage.alt = next.alt;
+      heroSlideImage.classList.add("is-active");
+      heroDots.forEach((dot, dotIndex) => {
+        const active = dotIndex === heroImageIndex;
+        dot.classList.toggle("is-active", active);
+        if (active) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+      requestAnimationFrame(() => heroSlideImage.classList.remove("is-changing"));
+    };
+
+    if (!animate || reduceMotion) {
+      apply();
+      return;
     }
+
+    heroSlideImage.classList.add("is-changing");
+    setTimeout(apply, 260);
   }
 
-  function startHeroSlider() {
-    stopHeroSlider();
-    if (reduceMotion || slides.length < 2 || document.hidden) return;
-    heroTimer = setInterval(() => showHeroSlide(heroIndex + 1), 3000);
+  function stopHeroImages() {
+    if (heroImageTimer) clearInterval(heroImageTimer);
+    heroImageTimer = null;
   }
 
-  dots.forEach((dot, index) => {
+  function startHeroImages() {
+    stopHeroImages();
+    if (reduceMotion || document.hidden) return;
+    heroImageTimer = setInterval(
+      () => renderHeroImage(heroImageIndex + 1),
+      3000,
+    );
+  }
+
+  heroDots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
-      showHeroSlide(index);
-      startHeroSlider();
+      renderHeroImage(index);
+      startHeroImages();
     });
   });
 
-  heroSlider.addEventListener("mouseenter", stopHeroSlider);
-  heroSlider.addEventListener("mouseleave", startHeroSlider);
-  heroSlider.addEventListener("focusin", stopHeroSlider);
-  heroSlider.addEventListener("focusout", startHeroSlider);
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) stopHeroSlider();
-    else startHeroSlider();
+    if (document.hidden) stopHeroImages();
+    else startHeroImages();
   });
 
-  showHeroSlide(0);
-  startHeroSlider();
+  renderHeroImage(0, false);
+  startHeroImages();
 }
