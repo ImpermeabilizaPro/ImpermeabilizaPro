@@ -549,52 +549,60 @@ callbackForms.forEach((callbackForm) => {
 });
 
 
-// Homepage contained hero slider: one image element only, avoiding layout jumps.
+// Homepage hero slider: optimized WebP delivery through Netlify Image CDN.
 const heroSlideImage = document.getElementById("heroSlideImage");
 if (heroSlideImage) {
-  const heroImages = [
-    {
-      src: "/assets/foto-real-20260915-162914.jpeg",
-      alt: "Cobertura real impermeabilizada com tela asfáltica",
-    },
-    {
-      src: "/assets/foto-real-20260915-162859.jpeg",
-      alt: "Execução real de impermeabilização numa cobertura",
-    },
-    {
-      src: "/assets/foto-real-20260917-01.jpeg",
-      alt: "Trabalho real de impermeabilização em cobertura plana",
-    },
-    {
-      src: "/assets/foto-real-20260915-161418.jpeg",
-      alt: "Detalhe real de trabalho de impermeabilização",
-    },
-    {
-      src: "/assets/foto-real-20260915-161929.jpeg",
-      alt: "Aplicação real de impermeabilização numa cobertura",
-    },
-    {
-      src: "/assets/foto-real-20260909-151643.jpeg",
-      alt: "Execução real de impermeabilização em obra",
-    },
+  const heroImagePaths = [
+    "/assets/foto-real-20260915-162914.jpeg",
+    "/assets/foto-real-20260915-162859.jpeg",
+    "/assets/foto-real-20260917-01.jpeg",
+    "/assets/foto-real-20260915-161418.jpeg",
+    "/assets/foto-real-20260915-161929.jpeg",
+    "/assets/foto-real-20260909-151643.jpeg",
+  ];
+  const heroImageAlts = [
+    "Cobertura real impermeabilizada com tela asfáltica",
+    "Execução real de impermeabilização numa cobertura",
+    "Trabalho real de impermeabilização em cobertura plana",
+    "Detalhe real de trabalho de impermeabilização",
+    "Aplicação real de impermeabilização numa cobertura",
+    "Execução real de impermeabilização em obra",
   ];
   const heroDots = [...document.querySelectorAll(".hero-background-footer .hero-dot")];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const loadedHeroImages = new Set();
   let heroImageIndex = 0;
   let heroImageTimer = null;
 
-  heroImages.slice(1).forEach(({ src }) => {
+  function heroCdnUrl(path) {
+    const width =
+      window.innerWidth <= 760 ? 1100 :
+      window.innerWidth <= 1280 ? 1600 :
+      1920;
+    return (
+      "/.netlify/images?url=" +
+      encodeURIComponent(path) +
+      "&w=" + width +
+      "&fm=webp&q=84"
+    );
+  }
+
+  function preloadHeroImage(index) {
+    const normalized = (index + heroImagePaths.length) % heroImagePaths.length;
+    if (loadedHeroImages.has(normalized)) return;
+    loadedHeroImages.add(normalized);
     const preload = new Image();
-    preload.src = src;
-  });
+    preload.decoding = "async";
+    preload.src = heroCdnUrl(heroImagePaths[normalized]);
+  }
 
   function renderHeroImage(index, animate = true) {
-    heroImageIndex = (index + heroImages.length) % heroImages.length;
-    const next = heroImages[heroImageIndex];
+    heroImageIndex = (index + heroImagePaths.length) % heroImagePaths.length;
+    const nextSrc = heroCdnUrl(heroImagePaths[heroImageIndex]);
 
     const apply = () => {
-      heroSlideImage.src = next.src;
-      heroSlideImage.alt = next.alt;
+      heroSlideImage.src = nextSrc;
+      heroSlideImage.alt = "";
       heroSlideImage.classList.add("is-active");
       heroDots.forEach((dot, dotIndex) => {
         const active = dotIndex === heroImageIndex;
@@ -602,6 +610,7 @@ if (heroSlideImage) {
         if (active) dot.setAttribute("aria-current", "true");
         else dot.removeAttribute("aria-current");
       });
+      preloadHeroImage(heroImageIndex + 1);
       requestAnimationFrame(() => heroSlideImage.classList.remove("is-changing"));
     };
 
@@ -622,6 +631,7 @@ if (heroSlideImage) {
   function startHeroImages() {
     stopHeroImages();
     if (reduceMotion || document.hidden) return;
+    preloadHeroImage(heroImageIndex + 1);
     heroImageTimer = setInterval(
       () => renderHeroImage(heroImageIndex + 1),
       3000,
@@ -630,6 +640,7 @@ if (heroSlideImage) {
 
   heroDots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
+      preloadHeroImage(index);
       renderHeroImage(index);
       startHeroImages();
     });
@@ -640,6 +651,8 @@ if (heroSlideImage) {
     else startHeroImages();
   });
 
+  loadedHeroImages.add(0);
   renderHeroImage(0, false);
   startHeroImages();
 }
+
