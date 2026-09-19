@@ -3126,8 +3126,8 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
 .hero-background .hero-bg-overlay {
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(4,19,32,.96) 0%, rgba(4,21,36,.9) 34%, rgba(4,23,40,.66) 57%, rgba(4,23,40,.2) 100%),
-    linear-gradient(0deg, rgba(3,16,28,.24), rgba(3,16,28,.06));
+    linear-gradient(90deg, rgba(4,19,32,.78) 0%, rgba(4,21,36,.64) 34%, rgba(4,23,40,.34) 57%, rgba(4,23,40,.06) 100%),
+    linear-gradient(0deg, rgba(3,16,28,.12), rgba(3,16,28,.02));
   pointer-events: none;
 }
 .hero-background-inner {
@@ -3241,7 +3241,7 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
   }
   .hero-background .hero-bg-overlay {
     background:
-      linear-gradient(90deg, rgba(4,19,32,.95) 0%, rgba(4,21,36,.82) 55%, rgba(4,23,40,.34) 100%);
+      linear-gradient(90deg, rgba(4,19,32,.80) 0%, rgba(4,21,36,.64) 55%, rgba(4,23,40,.18) 100%);
   }
 }
 
@@ -3261,8 +3261,8 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
   }
   .hero-background .hero-bg-overlay {
     background:
-      linear-gradient(90deg, rgba(4,19,32,.94) 0%, rgba(4,21,36,.82) 100%),
-      linear-gradient(0deg, rgba(4,19,32,.36) 0%, rgba(4,19,32,.08) 70%);
+      linear-gradient(90deg, rgba(4,19,32,.80) 0%, rgba(4,21,36,.64) 100%),
+      linear-gradient(0deg, rgba(4,19,32,.20) 0%, rgba(4,19,32,.04) 70%);
   }
   .hero-background h1 {
     font-size: clamp(40px, 11vw, 52px);
