@@ -651,16 +651,3 @@ if (heroSlideImage) {
 
 
 
-function loadLocalGoogleMap() {
-  const map = document.getElementById("localMap");
-  if (!map || map.dataset.loaded === "true") return;
-  map.dataset.loaded = "true";
-  const iframe = document.createElement("iframe");
-  iframe.title = "ImpermeabilizaPro no Google Maps";
-  iframe.src = "https://www.google.com/maps?q=Sobral+de+Monte+Agra%C3%A7o%2C+Portugal&output=embed";
-  iframe.loading = "lazy";
-  iframe.referrerPolicy = "no-referrer-when-downgrade";
-  iframe.allowFullscreen = true;
-  map.replaceChildren(iframe);
-}
-document.getElementById("loadMap")?.addEventListener("click", loadLocalGoogleMap);
