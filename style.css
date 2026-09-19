@@ -3359,3 +3359,20 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
     grid-column: auto;
   }
 }
+
+
+/* Compact desktop service navigation */
+@media (min-width: 1151px) {
+  .header-in {
+    gap: 20px;
+  }
+  .header nav {
+    gap: 20px;
+  }
+  .header nav a {
+    white-space: nowrap;
+  }
+  .header .brand {
+    min-width: 230px;
+  }
+}
