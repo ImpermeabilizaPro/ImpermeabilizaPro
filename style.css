@@ -3299,3 +3299,63 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
     transform: none !important;
   }
 }
+
+
+/* CRO refinements 4/5/6 — image delivery, contact hierarchy, WhatsApp semantics */
+.quick-form-stack {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.quick-form-stack .callback-box {
+  margin-top: 0;
+  border-radius: 12px;
+  background: #f8fafc;
+  box-shadow: none;
+}
+.quick-form-stack .callback-box summary {
+  padding: 13px 42px 13px 15px;
+  font-size: 12px;
+  font-weight: 850;
+}
+.quick-form-stack .callback-box summary::after {
+  right: 15px;
+  font-size: 18px;
+}
+.quick-form-stack .callback-box > p {
+  padding: 0 15px 10px;
+  font-size: 11px;
+}
+.quick-form-stack .callback-form {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  padding: 0 15px 15px;
+}
+.quick-form-stack .callback-form .btn,
+.quick-form-stack .callback-form .callback-privacy,
+.quick-form-stack .callback-form .callback-status {
+  grid-column: 1 / -1;
+}
+.quick-form-stack .callback-form .btn {
+  min-height: 44px;
+  font-size: 12px;
+}
+.btn.whatsapp:hover,
+.btn.wa-dark:hover {
+  background: #096b52;
+}
+.btn.whatsapp:focus-visible,
+.btn.wa-dark:focus-visible {
+  outline-color: #0b7a5d;
+}
+
+@media (max-width: 760px) {
+  .quick-form-stack .callback-form {
+    grid-template-columns: 1fr;
+  }
+  .quick-form-stack .callback-form .btn,
+  .quick-form-stack .callback-form .callback-privacy,
+  .quick-form-stack .callback-form .callback-status {
+    grid-column: auto;
+  }
+}
