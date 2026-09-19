@@ -649,3 +649,18 @@ if (heroSlideImage) {
   startHeroImages();
 }
 
+
+
+function loadLocalGoogleMap() {
+  const map = document.getElementById("localMap");
+  if (!map || map.dataset.loaded === "true") return;
+  map.dataset.loaded = "true";
+  const iframe = document.createElement("iframe");
+  iframe.title = "ImpermeabilizaPro no Google Maps";
+  iframe.src = "https://www.google.com/maps?q=place_id:ChIJ4QezAl7TGA0RLGpfpIbhAO8&output=embed";
+  iframe.loading = "lazy";
+  iframe.referrerPolicy = "no-referrer-when-downgrade";
+  iframe.allowFullscreen = true;
+  map.replaceChildren(iframe);
+}
+document.getElementById("loadMap")?.addEventListener("click", loadLocalGoogleMap);
