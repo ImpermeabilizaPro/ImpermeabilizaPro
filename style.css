@@ -3465,3 +3465,34 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
     height: 280px;
   }
 }
+
+.local-map-placeholder {
+  min-height: 390px;
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 75% 25%, rgba(13,110,215,.10), transparent 36%),
+    linear-gradient(135deg, #f8fbfe, #eaf2f8);
+}
+.local-map-placeholder b {
+  color: var(--navy);
+  font-size: 20px;
+}
+.local-map-placeholder p {
+  margin: 8px 0 18px;
+  color: var(--muted);
+}
+.local-map-placeholder small {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+@media (max-width:900px){
+  .local-map-placeholder{min-height:320px;}
+}
+@media (max-width:560px){
+  .local-map-placeholder{min-height:280px;padding:24px;}
+}
