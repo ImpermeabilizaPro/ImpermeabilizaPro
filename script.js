@@ -548,3 +548,60 @@ callbackForms.forEach((callbackForm) => {
   });
 });
 
+
+
+// Homepage hero slider: real-work photography, 3-second premium fade.
+const heroSlider = document.querySelector("[data-hero-slider]");
+if (heroSlider) {
+  const slides = [...heroSlider.querySelectorAll(".hero-slide")];
+  const dots = [...heroSlider.querySelectorAll(".hero-dot")];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let heroIndex = 0;
+  let heroTimer = null;
+
+  function showHeroSlide(nextIndex) {
+    if (!slides.length) return;
+    heroIndex = (nextIndex + slides.length) % slides.length;
+    slides.forEach((slide, index) => {
+      slide.classList.toggle("is-active", index === heroIndex);
+    });
+    dots.forEach((dot, index) => {
+      const active = index === heroIndex;
+      dot.classList.toggle("is-active", active);
+      if (active) dot.setAttribute("aria-current", "true");
+      else dot.removeAttribute("aria-current");
+    });
+  }
+
+  function stopHeroSlider() {
+    if (heroTimer) {
+      clearInterval(heroTimer);
+      heroTimer = null;
+    }
+  }
+
+  function startHeroSlider() {
+    stopHeroSlider();
+    if (reduceMotion || slides.length < 2 || document.hidden) return;
+    heroTimer = setInterval(() => showHeroSlide(heroIndex + 1), 3000);
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      showHeroSlide(index);
+      startHeroSlider();
+    });
+  });
+
+  heroSlider.addEventListener("mouseenter", stopHeroSlider);
+  heroSlider.addEventListener("mouseleave", startHeroSlider);
+  heroSlider.addEventListener("focusin", stopHeroSlider);
+  heroSlider.addEventListener("focusout", startHeroSlider);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopHeroSlider();
+    else startHeroSlider();
+  });
+
+  showHeroSlide(0);
+  startHeroSlider();
+}
