@@ -39,7 +39,7 @@
       type="image/webp"
     />
 
-    <link href="/style.css?v=20260919-premiumhero1" rel="stylesheet" />
+    <link href="/style.css?v=20260919-premiumhero2" rel="stylesheet" />
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -113,46 +113,15 @@
       </div>
     </header>
     <main id="conteudo">
-      <section class="hero hero-home" data-hero-slider aria-labelledby="hero-title">
-        <div class="hero-slides" aria-hidden="true">
-          <img
-            class="hero-slide is-active"
-            src="/assets/foto-real-20260915-162914.jpeg"
-            alt=""
-            width="1920"
-            height="1080"
-            fetchpriority="high"
-            decoding="async"
-          />
-          <img
-            class="hero-slide"
-            src="/assets/foto-real-20260915-162859.jpeg"
-            alt=""
-            width="1920"
-            height="1080"
-            loading="eager"
-            decoding="async"
-          />
-          <img
-            class="hero-slide"
-            src="/assets/foto-real-20260917-01.jpeg"
-            alt=""
-            width="2000"
-            height="1500"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-        <div class="hero-overlay" aria-hidden="true"></div>
-
-        <div class="wrap hero-home-inner">
+      <section class="hero hero-home hero-contained" aria-labelledby="hero-title">
+        <div class="wrap hero-contained-grid">
           <div class="hero-copy">
             <p class="eyebrow">IMPERMEABILIZAÇÃO · LISBOA E OESTE</p>
             <h1 id="hero-title">Impermeabilização de telhados e terraços.</h1>
             <p class="lead">
               Resolva infiltrações ou prepare uma nova impermeabilização.
-              Avaliamos a superfície, explicamos a solução e só depois
-              apresentamos o orçamento.
+              Avaliamos a superfície e explicamos o trabalho necessário antes
+              de apresentar o orçamento.
             </p>
 
             <div class="hero-location-row">
@@ -190,12 +159,30 @@
             </div>
           </div>
 
-          <div class="hero-slider-ui">
-            <span class="hero-slider-label">Obras reais · fotografias próprias</span>
-            <div class="hero-dots" aria-label="Fotografias do trabalho">
-              <button class="hero-dot is-active" type="button" aria-label="Ver fotografia 1" aria-current="true"></button>
-              <button class="hero-dot" type="button" aria-label="Ver fotografia 2"></button>
-              <button class="hero-dot" type="button" aria-label="Ver fotografia 3"></button>
+          <div class="hero-media-card">
+            <div class="hero-media-frame">
+              <img
+                id="heroSlideImage"
+                src="/assets/foto-real-20260915-162914.jpeg"
+                alt="Cobertura real impermeabilizada com tela asfáltica"
+                width="1920"
+                height="1080"
+                fetchpriority="high"
+                decoding="async"
+              />
+              <div class="hero-media-shade" aria-hidden="true"></div>
+              <div class="hero-media-caption">
+                <span>OBRA REAL</span>
+                <strong>Execução de impermeabilização</strong>
+              </div>
+            </div>
+            <div class="hero-media-footer">
+              <span>Fotografias próprias de trabalhos realizados</span>
+              <div class="hero-dots" aria-label="Fotografias do trabalho">
+                <button class="hero-dot is-active" type="button" aria-label="Ver fotografia 1" aria-current="true"></button>
+                <button class="hero-dot" type="button" aria-label="Ver fotografia 2"></button>
+                <button class="hero-dot" type="button" aria-label="Ver fotografia 3"></button>
+              </div>
             </div>
           </div>
         </div>
@@ -811,6 +798,6 @@
         ><button id="accept" type="button">Aceitar</button>
       </div>
     </div>
-    <script defer="" src="/script.js?v=20260919-premiumhero1"></script>
+    <script defer="" src="/script.js?v=20260919-premiumhero2"></script>
   </body>
 </html>
