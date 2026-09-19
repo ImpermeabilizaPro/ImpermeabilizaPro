@@ -578,7 +578,7 @@ if (heroSlideImage) {
       alt: "Execução real de impermeabilização em obra",
     },
   ];
-  const heroDots = [...document.querySelectorAll(".hero-media-card .hero-dot")];
+  const heroDots = [...document.querySelectorAll(".hero-background-footer .hero-dot")];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let heroImageIndex = 0;
   let heroImageTimer = null;
