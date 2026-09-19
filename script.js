@@ -1,6 +1,7 @@
 "use strict";
 const PHONE = "351930446198";
 const GA4_ID = "G-BBSN5Z50XK";
+const ADS_ID = "AW-18418470072";
 window.dataLayer = window.dataLayer || [];
 window.gtag =
   window.gtag ||
@@ -113,6 +114,8 @@ function trackLeadIntent(channel, placement) {
   trackOncePerSession("ip_contact_intent", "ip_contact_intent_counted", {
     contact_action: channel,
     placement,
+    measurement_type: "first_contact_click",
+    verification_status: "click_only_not_confirmed_contact",
     lead_scope: "one_per_session",
   });
 }
@@ -129,6 +132,11 @@ function loadGa4() {
   window.gtag("config", GA4_ID, {
     send_page_view: true,
     page_path: location.pathname + location.search,
+  });
+  // Google Ads destination is configured after consent so ad-click attribution
+  // can be stored by the Google tag without generating a second page view.
+  window.gtag("config", ADS_ID, {
+    send_page_view: false,
   });
 }
 function applyConsent(value) {
@@ -208,6 +216,8 @@ document.querySelectorAll(".wa-direct").forEach((link) => {
     trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_counted", {
       placement,
       contact_action: "whatsapp",
+      measurement_type: "click_to_whatsapp",
+      verification_status: "click_only_message_not_confirmed_sent",
     });
     trackLeadIntent("whatsapp", placement);
   });
@@ -218,6 +228,8 @@ document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
     trackOncePerSession("ip_phone_click", "ip_phone_click_counted", {
       placement,
       contact_action: "phone",
+      measurement_type: "click_to_call",
+      verification_status: "click_only_call_not_confirmed_connected",
     });
     trackLeadIntent("phone", placement);
   }),
@@ -229,6 +241,8 @@ document
       trackOncePerSession("ip_email_click", "ip_email_click_counted", {
         contact_action: "email",
         placement: "email_link",
+        measurement_type: "click_to_email",
+        verification_status: "click_only_email_not_confirmed_sent",
       });
       trackLeadIntent("email", "email_link");
     }),
@@ -324,10 +338,14 @@ if (form) {
     // The click is a microconversion, never proof of a sent message or a received lead.
     track("ip_whatsapp_request_prepared", {
       form_type: "whatsapp_request_builder",
+      measurement_type: "message_prepared",
+      verification_status: "prepared_not_confirmed_sent",
     });
     trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_counted", {
       placement: "request_builder",
       contact_action: "whatsapp",
+      measurement_type: "click_to_whatsapp",
+      verification_status: "click_only_message_not_confirmed_sent",
     });
     trackLeadIntent("whatsapp", "request_builder");
     window.open(url, "_blank", "noopener,noreferrer");
@@ -336,6 +354,8 @@ if (form) {
     trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_counted", {
       placement: "request_fallback",
       contact_action: "whatsapp",
+      measurement_type: "click_to_whatsapp",
+      verification_status: "click_only_message_not_confirmed_sent",
     });
     trackLeadIntent("whatsapp", "request_fallback");
   });
