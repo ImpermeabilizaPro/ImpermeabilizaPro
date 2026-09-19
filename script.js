@@ -574,17 +574,8 @@ if (heroSlideImage) {
   let heroImageIndex = 0;
   let heroImageTimer = null;
 
-  function heroCdnUrl(path) {
-    const width =
-      window.innerWidth <= 760 ? 1100 :
-      window.innerWidth <= 1280 ? 1600 :
-      1920;
-    return (
-      "/.netlify/images?url=" +
-      encodeURIComponent(path) +
-      "&w=" + width +
-      "&fm=webp&q=84"
-    );
+  function heroImageUrl(path) {
+    return path;
   }
 
   function preloadHeroImage(index) {
@@ -593,12 +584,12 @@ if (heroSlideImage) {
     loadedHeroImages.add(normalized);
     const preload = new Image();
     preload.decoding = "async";
-    preload.src = heroCdnUrl(heroImagePaths[normalized]);
+    preload.src = heroImageUrl(heroImagePaths[normalized]);
   }
 
   function renderHeroImage(index, animate = true) {
     heroImageIndex = (index + heroImagePaths.length) % heroImagePaths.length;
-    const nextSrc = heroCdnUrl(heroImagePaths[heroImageIndex]);
+    const nextSrc = heroImageUrl(heroImagePaths[heroImageIndex]);
 
     const apply = () => {
       heroSlideImage.src = nextSrc;
