@@ -39,7 +39,7 @@
       type="image/webp"
     />
 
-    <link href="/style.css?v=20260919-local1" rel="stylesheet" />
+    <link href="/style.css?v=20260919-local2" rel="stylesheet" />
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -772,14 +772,13 @@
               >
             </div>
           </div>
-          <div class="local-map">
-            <iframe
-              title="ImpermeabilizaPro no Google Maps"
-              src="https://www.google.com/maps?q=place_id:ChIJ4QezAl7TGA0RLGpfpIbhAO8&output=embed"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              allowfullscreen
-            ></iframe>
+          <div class="local-map" id="localMap">
+            <div class="local-map-placeholder">
+              <b>ImpermeabilizaPro no Google Maps</b>
+              <p>Carregue o mapa quando quiser ver a localização no Google.</p>
+              <button class="btn outline" id="loadMap" type="button">Carregar Google Maps</button>
+              <small>Ao carregar, o conteúdo é fornecido pela Google.</small>
+            </div>
           </div>
         </div>
       </section>
@@ -846,6 +845,6 @@
         ><button id="accept" type="button">Aceitar</button>
       </div>
     </div>
-    <script defer="" src="/script.js?v=20260919-local1"></script>
+    <script defer="" src="/script.js?v=20260919-local2"></script>
   </body>
 </html>
