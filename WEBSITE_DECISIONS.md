@@ -72,3 +72,14 @@ The inherited assets/vinicius-nascimento.webp is invalid (both browser display a
 - Fixed script.js: direct gtag custom events explicitly target G-BBSN5Z50XK; GTM dataLayer events remain available. Form start, section and scroll milestones are marked counted only after consent permits tracking. A later eligible interaction can therefore be recorded. Email and WhatsApp retry actions now participate in the existing one-per-session contact-intent counter.
 - Syntax/diff checks and Node VM behavior tests passed: consent gating, late consent, form/scroll/section counts, cross-channel contact-intent deduplication, blocked storage, explicit GA4 destination, WhatsApp URL construction and exclusion of personal form answers from analytics. No message was sent. These code tests do not prove live tag delivery.
 - Remaining administration work: verify company administrators on GTM, Ads, GA4 and Search Console; inspect live GTM triggers and rename obsolete submitted-request conversion terminology; verify primary/secondary conversion goals and duplicate imports; validate in Preview before publishing GTM changes. Domain/DNS ownership was not inspected.
+
+
+## Tracking final cleanup — 19 September 2026
+
+- Live website tracking now uses the direct Google tag only: GA4 `G-BBSN5Z50XK` plus Google Ads destination `AW-18418470072`, loaded only after analytics/advertising consent.
+- Legacy GTM container `GTM-KTCT795B` is no longer loaded by the website. This prevents old GTM triggers and duplicate GA4/custom conversion firing from affecting live measurement.
+- Contact measurement is channel-specific and truthful: `ip_whatsapp_click` means click-to-open WhatsApp, `ip_phone_click` means click-to-call, and `ip_email_click` means click-to-email. None of these claims a sent message, connected call, sent email, or confirmed lead.
+- `ip_contact_intent` remains a one-per-session aggregate of the first contact-channel click. `ip_whatsapp_request_prepared` means only that the website prepared a WhatsApp message.
+- WhatsApp, phone and email channel click events are each deduplicated once per session. Form validation, quote CTA, section, FAQ and scroll diagnostics remain non-lead events.
+- Google Ads auto-tagging is confirmed enabled. The old Google Ads action “Pedido de Avaliação Enviado” is still present in the account as a secondary website conversion, but the live website no longer loads the legacy GTM path that could trigger it and does not emit a submitted/received-lead event.
+- The current Google Ads connector supports campaign/ad mutations but does not expose conversion-action rename/remove or GA4 key-event administration. Those account-admin changes therefore remain outside this connector's writable scope.
