@@ -3376,3 +3376,20 @@ body:has(.photo-dialog[open]) { overflow:hidden; }
     min-width: 230px;
   }
 }
+
+
+/* Contextual SEO service links */
+.related-service-links {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.related-service-links a {
+  color: var(--blue);
+  font-weight: 800;
+  text-underline-offset: 3px;
+}
+.related-service-links a:hover {
+  color: var(--blue2);
+}
