@@ -565,6 +565,18 @@ if (heroSlideImage) {
       src: "/assets/foto-real-20260917-01.jpeg",
       alt: "Trabalho real de impermeabilização em cobertura plana",
     },
+    {
+      src: "/assets/foto-real-20260915-161418.jpeg",
+      alt: "Detalhe real de trabalho de impermeabilização",
+    },
+    {
+      src: "/assets/foto-real-20260915-161929.jpeg",
+      alt: "Aplicação real de impermeabilização numa cobertura",
+    },
+    {
+      src: "/assets/foto-real-20260909-151643.jpeg",
+      alt: "Execução real de impermeabilização em obra",
+    },
   ];
   const heroDots = [...document.querySelectorAll(".hero-media-card .hero-dot")];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
