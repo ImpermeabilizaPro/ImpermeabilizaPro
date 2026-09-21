@@ -400,6 +400,9 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
+.service-grid.has-four {
+  grid-template-columns: repeat(2, 1fr);
+}
 .service-grid article {
   position: relative;
   min-height: 300px;
