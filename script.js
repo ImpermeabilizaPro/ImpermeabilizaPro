@@ -200,6 +200,8 @@ const messages = {
     "Olá! Gostaria de pedir um orçamento para impermeabilizar um terraço ou varanda.",
   paredes:
     "Olá! Gostaria de pedir um orçamento para impermeabilizar uma parede.",
+  tela:
+    "Olá! Gostaria de pedir um orçamento para aplicação de tela asfáltica.",
 };
 function whatsappUrl(message) {
   return `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
