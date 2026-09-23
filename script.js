@@ -216,7 +216,7 @@ document.querySelectorAll(".wa-direct").forEach((link) => {
       measurement_type: "click_to_whatsapp",
       verification_status: "click_only_message_not_confirmed_sent",
     });
-    trackLeadIntent("whatsapp", placement);
+    // Direct WhatsApp opens remain a microconversion only.
   });
 });
 document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
@@ -228,7 +228,7 @@ document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
       measurement_type: "click_to_call",
       verification_status: "click_only_call_not_confirmed_connected",
     });
-    trackLeadIntent("phone", placement);
+    // A click-to-call is not proof of a connected or qualified call.
   }),
 );
 document
@@ -241,7 +241,7 @@ document
         measurement_type: "click_to_email",
         verification_status: "click_only_email_not_confirmed_sent",
       });
-      trackLeadIntent("email", "email_link");
+      // A mailto click is observation only, not a primary lead signal.
     }),
   );
 document.querySelectorAll(".mobile-menu a").forEach((link) =>
@@ -354,7 +354,7 @@ if (form) {
       measurement_type: "click_to_whatsapp",
       verification_status: "click_only_message_not_confirmed_sent",
     });
-    trackLeadIntent("whatsapp", "request_fallback");
+    // The structured request was already counted on valid form submission.
   });
 }
 
