@@ -83,3 +83,11 @@ The inherited assets/vinicius-nascimento.webp is invalid (both browser display a
 - WhatsApp, phone and email channel click events are each deduplicated once per session. Form validation, quote CTA, section, FAQ and scroll diagnostics remain non-lead events.
 - Google Ads auto-tagging is confirmed enabled. The old Google Ads action “Pedido de Avaliação Enviado” is still present in the account as a secondary website conversion, but the live website no longer loads the legacy GTM path that could trigger it and does not emit a submitted/received-lead event.
 - The current Google Ads connector supports campaign/ad mutations but does not expose conversion-action rename/remove or GA4 key-event administration. Those account-admin changes therefore remain outside this connector's writable scope.
+
+## Conversion cleanup — 25 September 2026
+
+- Removed emission of `ip_contact_intent` from the live website because it is an aggregate click-intent signal, not a confirmed lead, and Google Ads had counted it in the Conversions column.
+- Kept `ip_whatsapp_click`, `ip_phone_click` and `ip_email_click` as channel-specific observation events only. They do not claim a sent message, connected call or sent email.
+- Kept `ip_whatsapp_request_prepared` and callback-open events as diagnostics only.
+- Refreshed the tracking script cache reference on Home, Telhados, Terraços, Paredes and Tela Asfáltica so the corrected bundle is loaded.
+- Google Ads account-level call reporting remains enabled and the call asset uses +351 930 446 198. Website-call conversion tracking with a Google forwarding number still requires a dedicated Google Ads conversion action/snippet and is not writable through the current connector.
