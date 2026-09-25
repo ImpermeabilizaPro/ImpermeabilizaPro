@@ -87,6 +87,8 @@ function track(event, extra = {}) {
     ...attribution,
     ...extra,
   };
+  // Keep the event names already imported into Google Ads as SECONDARY conversions.
+  // Clicks are observations, not confirmed contacts; verification_status records this.
   // Send each website event once, directly to this GA4 property.
   window.gtag("event", event, { ...payload, send_to: GA4_ID });
   return true;
@@ -201,7 +203,7 @@ document.querySelectorAll(".wa-direct").forEach((link) => {
   link.href = whatsappUrl(messages[service] || messages.geral);
   link.addEventListener("click", () => {
     const placement = link.dataset.placement || "direct";
-    trackOncePerSession("ip_whatsapp_click_observed", "ip_whatsapp_click_observed_counted", {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_observed_counted", {
       placement,
       contact_action: "whatsapp",
       measurement_type: "click_to_whatsapp",
@@ -213,7 +215,7 @@ document.querySelectorAll(".wa-direct").forEach((link) => {
 document.querySelectorAll('a[href^="tel:"]').forEach((link) =>
   link.addEventListener("click", () => {
     const placement = link.dataset.track || "footer";
-    trackOncePerSession("ip_phone_click_observed", "ip_phone_click_observed_counted", {
+    trackOncePerSession("ip_phone_click", "ip_phone_click_observed_counted", {
       placement,
       contact_action: "phone",
       measurement_type: "click_to_call",
@@ -226,7 +228,7 @@ document
   .querySelectorAll('a[href^="mailto:"]')
   .forEach((link) =>
     link.addEventListener("click", () => {
-      trackOncePerSession("ip_email_click_observed", "ip_email_click_observed_counted", {
+      trackOncePerSession("ip_email_click", "ip_email_click_observed_counted", {
         contact_action: "email",
         placement: "email_link",
         measurement_type: "click_to_email",
@@ -329,7 +331,7 @@ if (form) {
       measurement_type: "message_prepared",
       verification_status: "prepared_not_confirmed_sent",
     });
-    trackOncePerSession("ip_whatsapp_click_observed", "ip_whatsapp_click_observed_counted", {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_observed_counted", {
       placement: "request_builder",
       contact_action: "whatsapp",
       measurement_type: "click_to_whatsapp",
@@ -338,7 +340,7 @@ if (form) {
     window.open(url, "_blank", "noopener,noreferrer");
   });
   requestLink.addEventListener("click", () => {
-    trackOncePerSession("ip_whatsapp_click_observed", "ip_whatsapp_click_observed_counted", {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_observed_counted", {
       placement: "request_fallback",
       contact_action: "whatsapp",
       measurement_type: "click_to_whatsapp",
