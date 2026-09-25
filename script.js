@@ -116,7 +116,19 @@ function replaceWebsitePhoneNumber(formattedNumber, mobileNumber) {
   if (consent !== "accepted") return;
   const dialNumber = String(mobileNumber || "").replace(/[^+0-9]/g, "");
   if (!/^\+?[0-9]{9,15}$/.test(dialNumber)) return;
-  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+  // Include plain WhatsApp links without changing their existing destination/message.
+document.querySelectorAll('a[href^="https://wa.me/"]').forEach((link) => {
+  if (link.classList.contains("wa-direct") || link.id === "requestLink") return;
+  link.addEventListener("click", () => {
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_observed_counted", {
+      placement: link.dataset.placement || "inline_link",
+      contact_action: "whatsapp",
+      measurement_type: "click_to_whatsapp",
+      verification_status: "click_only_message_not_confirmed_sent",
+    });
+  });
+});
+document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
     const current = link.getAttribute("href").replace(/[^0-9]/g, "");
     if (current !== PHONE && current !== "930446198") return;
     link.href = "tel:" + dialNumber;
@@ -554,6 +566,14 @@ callbackForms.forEach((callbackForm) => {
 
     const whatsappUrl =
       "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(lines.join("\n"));
+
+    // Use the same imported secondary event and session key as other WhatsApp opens.
+    trackOncePerSession("ip_whatsapp_click", "ip_whatsapp_click_observed_counted", {
+      placement: "callback_request",
+      contact_action: "whatsapp",
+      measurement_type: "click_to_whatsapp",
+      verification_status: "click_only_message_not_confirmed_sent",
+    });
 
     track("ip_callback_whatsapp_open", {
       form_type: "callback_request",
