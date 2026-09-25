@@ -68,6 +68,7 @@
 
     <script type="application/ld+json" data-seo-faq>{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Tenho infiltração no terraço. Conseguem avaliar?","acceptedAnswer":{"@type":"Answer","text":"Sim. Envie a localização e, se possível, fotografias da superfície, remates e zonas afetadas."}},{"@type":"Question","name":"Usam tela asfáltica na impermeabilização de terraços?","acceptedAnswer":{"@type":"Answer","text":"Sim. A tela asfáltica pode ser usada na impermeabilização de terraços quando é compatível com a base, os remates e a utilização prevista da superfície."}},{"@type":"Question","name":"Quanto custa impermeabilizar um terraço?","acceptedAnswer":{"@type":"Answer","text":"Não existe um preço por m² correto para todos os terraços. O valor depende da área, preparação da base, acessos, ralos, soleiras, remates e solução necessária."}},{"@type":"Question","name":"É necessário retirar a impermeabilização existente?","acceptedAnswer":{"@type":"Answer","text":"Depende do estado, aderência e compatibilidade do sistema existente. É necessário avaliar antes de decidir."}}]}</script>
 <link rel="stylesheet" href="/conversion.css?v=20260925-1" />
+<style>.photo-upload-note{margin:10px 0 0;color:#65798d;font-size:13px;line-height:1.5;text-align:center}.conversion-page .quick-section{scroll-margin-top:110px}</style>
 </head>
   <body data-service="terracos" class="conversion-page service-cro">
     <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
@@ -151,6 +152,209 @@
     <div><b>Contacto direto</b><span>Fale pelo WhatsApp ou ligue diretamente</span></div>
   </div>
 </section>
+<section class="quick-section" id="pedido">
+        <div class="wrap quick-grid">
+          <div class="quick-copy">
+            <p class="eyebrow">PEDIDO DE AVALIAÇÃO</p>
+            <h2>Peça orçamento e envie fotografias pelo WhatsApp.</h2>
+            <p>Indique a superfície e a localidade. Depois de abrir o WhatsApp, pode anexar fotografias, vídeos ou outros detalhes diretamente na conversa.</p>
+            
+            <p class="call-note">
+              Prefere falar?
+              <a data-track="phone_form" href="tel:+351930446198"
+                >Ligue 930 446 198</a
+              >.
+            </p>
+            <p class="email-option">
+              Também pode escrever para
+              <a href="mailto:proimpermeabiliza@gmail.com"
+                >proimpermeabiliza@gmail.com</a
+              >.
+            </p>
+
+          
+          </div>
+          <div class="quick-form-stack">
+<form
+            aria-labelledby="request-title"
+            class="quick-card"
+            id="quickForm"
+            novalidate=""
+          >
+            <div class="form-top">
+              <b id="request-title">O seu pedido de orçamento</b
+              ><span>Sem registo</span>
+            </div>
+            <p class="form-intro">
+              Só a superfície e a localidade são obrigatórias.
+            </p>
+            <div class="form-fields">
+              <div class="field">
+                <label for="tipo">O que precisa de impermeabilizar? *</label
+                ><select id="tipo" name="tipo" required="">
+                  <option value="">Selecione uma opção</option>
+                  <option value="Telhado / cobertura">
+                    Telhado / cobertura
+                  </option>
+                  <option selected="" value="Terraço / varanda">
+                    Terraço / varanda
+                  </option>
+                  <option value="Tela asfáltica / manta asfáltica">Tela asfáltica / manta asfáltica</option>
+                  <option value="Parede / outro">Parede / outro</option>
+                  <option value="Não sei, preciso de avaliação">
+                    Não sei, preciso de avaliação
+                  </option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="localidade">Em que localidade fica a obra? *</label
+                ><input
+                  autocomplete="address-level2"
+                  id="localidade"
+                  maxlength="120"
+                  name="localidade"
+                  placeholder="Ex.: Loures ou 2590-001"
+                  required=""
+                  type="text"
+                />
+              </div>
+              
+              <div class="field">
+                <label for="areaM2"
+                  >Área aproximada
+                  <span class="optional">(opcional)</span></label
+                >
+                <div class="area-input">
+                  <input
+                    aria-describedby="area-help"
+                    id="areaM2"
+                    inputmode="decimal"
+                    max="1000000"
+                    min="0.1"
+                    name="areaM2"
+                    placeholder="Ex.: 84"
+                    step="any"
+                    type="number"
+                  /><span>m²</span>
+                </div>
+                <small class="area-help" id="area-help"
+                  >Não sabe? Deixe em branco.</small
+                >
+              </div>
+            </div>
+            <details class="request-extras"><summary>Acrescentar detalhes (opcional)</summary><label class="field client-field">O pedido é para <span class="optional">(opcional)</span><select name="cliente" id="cliente"><option value="">Selecione, se quiser</option><option>Particular</option><option>Empresa / condomínio</option></select></label><div class="field">
+                <label for="situacao">Qual é a situação?</label
+                ><select id="situacao" name="situacao">
+                  <option value="Não sei, preciso de avaliação">
+                    Não sei, preciso de avaliação
+                  </option>
+                  <option>Está a entrar água</option>
+                  <option>Quero renovar a impermeabilização</option>
+                  <option>Nova impermeabilização / prevenção</option>
+                </select>
+              </div><div class="field">
+              <label for="descricao"
+                >Quer acrescentar algum detalhe?
+                <span class="optional">(opcional)</span></label
+              ><textarea
+                id="descricao"
+                maxlength="600"
+                name="descricao"
+                placeholder="Ex.: entra água na divisão por baixo; o terraço tem pavimento..."
+                rows="3"
+              ></textarea>
+            </div></details>
+            <p
+              class="form-error"
+              hidden=""
+              id="formError"
+              role="alert"
+              tabindex="-1"
+            ></p>
+            <button class="btn whatsapp big full" type="submit">
+              Continuar no WhatsApp e enviar fotos →
+            </button>
+            <p class="photo-upload-note">As fotografias são anexadas no próprio WhatsApp depois de abrir a conversa. Não precisa de preparar ficheiros no formulário.</p>
+            <p class="privacy">
+              Abre uma mensagem pronta a enviar para a ImpermeabilizaPro. Pode
+              revê-la antes de enviar. <a href="/privacidade/">Privacidade</a>
+            </p>
+            <div
+              class="request-status"
+              hidden=""
+              id="requestStatus"
+              role="status"
+            >
+              <b>A mensagem está preparada.</b>
+              <p>Confirme o envio no WhatsApp para recebermos o pedido.</p>
+              <a
+                class="btn whatsapp"
+                href="https://wa.me/351930446198"
+                id="requestLink"
+                rel="noopener noreferrer"
+                target="_blank"
+                >Abrir a mensagem no WhatsApp</a
+              >
+            </div>
+            <noscript
+              ><p>
+                Para preencher as perguntas, ative o JavaScript. Pode
+                <a href="https://wa.me/351930446198">contactar pelo WhatsApp</a>
+                ou <a href="tel:+351930446198">ligar 930 446 198</a>.
+              </p></noscript
+            >
+          </form>
+<details class="callback-box">
+            <summary>Prefere receber uma chamada? Peça pelo WhatsApp.</summary>
+            <p>
+              Indique apenas o seu número e, se quiser, a localidade. Abrimos uma mensagem pronta no WhatsApp para confirmar o pedido.
+            </p>
+            <form
+              class="callback-form"
+              name="callback"
+            >
+              <input type="hidden" name="pagina" value="" />
+              <input type="hidden" name="utm_source" value="" />
+              <input type="hidden" name="utm_medium" value="" />
+              <input type="hidden" name="utm_campaign" value="" />
+              <input type="hidden" name="utm_term" value="" />
+              <input type="hidden" name="gclid" value="" />
+              <input type="hidden" name="gbraid" value="" />
+              <input type="hidden" name="wbraid" value="" />
+              <input type="hidden" name="referrer" value="" />
+              <label>
+                Telemóvel *
+                <input
+                  autocomplete="tel"
+                  inputmode="tel"
+                  maxlength="30"
+                  name="telefone"
+                  placeholder="Ex.: 912 345 678"
+                  required
+                  type="tel"
+                />
+              </label>
+              <label>
+                Localidade <span class="optional">(opcional)</span>
+                <input
+                  autocomplete="address-level2"
+                  maxlength="120"
+                  name="localidade_callback"
+                  placeholder="Ex.: Loures"
+                  type="text"
+                />
+              </label>
+              <button class="btn whatsapp full" type="submit">Pedir que me liguem pelo WhatsApp</button>
+              <p class="callback-privacy">
+                Abre uma mensagem pronta no WhatsApp. Só recebemos o pedido depois de confirmar o envio.
+                <a href="/privacidade/">Privacidade</a>
+              </p>
+              <p class="callback-status" hidden role="status"></p>
+            </form>
+          </details>
+</div>
+        </div>
+      </section>
       <section class="work-showcase" id="obras">
         <div class="wrap">
           <div class="section-head">
@@ -311,211 +515,7 @@
         </div>
       </section>
       
-      <section class="quick-section" id="pedido">
-        <div class="wrap quick-grid">
-          <div class="quick-copy">
-            <p class="eyebrow">PEDIDO DE AVALIAÇÃO</p>
-            <h2>Peça uma avaliação do seu terraço ou varanda.</h2>
-            <p>
-              Indique a localização e a situação. No WhatsApp pode acrescentar
-              fotos da superfície, ralos, soleiras e zonas onde surge a infiltração.
-            </p>
-            
-            <p class="call-note">
-              Prefere falar?
-              <a data-track="phone_form" href="tel:+351930446198"
-                >Ligue 930 446 198</a
-              >.
-            </p>
-            <p class="email-option">
-              Também pode escrever para
-              <a href="mailto:proimpermeabiliza@gmail.com"
-                >proimpermeabiliza@gmail.com</a
-              >.
-            </p>
-
-          
-          </div>
-          <div class="quick-form-stack">
-<form
-            aria-labelledby="request-title"
-            class="quick-card"
-            id="quickForm"
-            novalidate=""
-          >
-            <div class="form-top">
-              <b id="request-title">O seu pedido de orçamento</b
-              ><span>Sem registo</span>
-            </div>
-            <p class="form-intro">
-              Só a superfície e a localidade são obrigatórias.
-            </p>
-            <div class="form-fields">
-              <div class="field">
-                <label for="tipo">O que precisa de impermeabilizar? *</label
-                ><select id="tipo" name="tipo" required="">
-                  <option value="">Selecione uma opção</option>
-                  <option value="Telhado / cobertura">
-                    Telhado / cobertura
-                  </option>
-                  <option selected="" value="Terraço / varanda">
-                    Terraço / varanda
-                  </option>
-                  <option value="Tela asfáltica / manta asfáltica">Tela asfáltica / manta asfáltica</option>
-                  <option value="Parede / outro">Parede / outro</option>
-                  <option value="Não sei, preciso de avaliação">
-                    Não sei, preciso de avaliação
-                  </option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="localidade">Em que localidade fica a obra? *</label
-                ><input
-                  autocomplete="address-level2"
-                  id="localidade"
-                  maxlength="120"
-                  name="localidade"
-                  placeholder="Ex.: Loures ou 2590-001"
-                  required=""
-                  type="text"
-                />
-              </div>
-              
-              <div class="field">
-                <label for="areaM2"
-                  >Área aproximada
-                  <span class="optional">(opcional)</span></label
-                >
-                <div class="area-input">
-                  <input
-                    aria-describedby="area-help"
-                    id="areaM2"
-                    inputmode="decimal"
-                    max="1000000"
-                    min="0.1"
-                    name="areaM2"
-                    placeholder="Ex.: 84"
-                    step="any"
-                    type="number"
-                  /><span>m²</span>
-                </div>
-                <small class="area-help" id="area-help"
-                  >Não sabe? Deixe em branco.</small
-                >
-              </div>
-            </div>
-            <details class="request-extras"><summary>Acrescentar detalhes (opcional)</summary><label class="field client-field">O pedido é para <span class="optional">(opcional)</span><select name="cliente" id="cliente"><option value="">Selecione, se quiser</option><option>Particular</option><option>Empresa / condomínio</option></select></label><div class="field">
-                <label for="situacao">Qual é a situação?</label
-                ><select id="situacao" name="situacao">
-                  <option value="Não sei, preciso de avaliação">
-                    Não sei, preciso de avaliação
-                  </option>
-                  <option>Está a entrar água</option>
-                  <option>Quero renovar a impermeabilização</option>
-                  <option>Nova impermeabilização / prevenção</option>
-                </select>
-              </div><div class="field">
-              <label for="descricao"
-                >Quer acrescentar algum detalhe?
-                <span class="optional">(opcional)</span></label
-              ><textarea
-                id="descricao"
-                maxlength="600"
-                name="descricao"
-                placeholder="Ex.: entra água na divisão por baixo; o terraço tem pavimento..."
-                rows="3"
-              ></textarea>
-            </div></details>
-            <p
-              class="form-error"
-              hidden=""
-              id="formError"
-              role="alert"
-              tabindex="-1"
-            ></p>
-            <button class="btn whatsapp big full" type="submit">
-              Continuar no WhatsApp →
-            </button>
-            <p class="privacy">
-              Abre uma mensagem pronta a enviar para a ImpermeabilizaPro. Pode
-              revê-la antes de enviar. <a href="/privacidade/">Privacidade</a>
-            </p>
-            <div
-              class="request-status"
-              hidden=""
-              id="requestStatus"
-              role="status"
-            >
-              <b>A mensagem está preparada.</b>
-              <p>Confirme o envio no WhatsApp para recebermos o pedido.</p>
-              <a
-                class="btn whatsapp"
-                href="https://wa.me/351930446198"
-                id="requestLink"
-                rel="noopener noreferrer"
-                target="_blank"
-                >Abrir a mensagem no WhatsApp</a
-              >
-            </div>
-            <noscript
-              ><p>
-                Para preencher as perguntas, ative o JavaScript. Pode
-                <a href="https://wa.me/351930446198">contactar pelo WhatsApp</a>
-                ou <a href="tel:+351930446198">ligar 930 446 198</a>.
-              </p></noscript
-            >
-          </form>
-<details class="callback-box">
-            <summary>Prefere receber uma chamada? Peça pelo WhatsApp.</summary>
-            <p>
-              Indique apenas o seu número e, se quiser, a localidade. Abrimos uma mensagem pronta no WhatsApp para confirmar o pedido.
-            </p>
-            <form
-              class="callback-form"
-              name="callback"
-            >
-              <input type="hidden" name="pagina" value="" />
-              <input type="hidden" name="utm_source" value="" />
-              <input type="hidden" name="utm_medium" value="" />
-              <input type="hidden" name="utm_campaign" value="" />
-              <input type="hidden" name="utm_term" value="" />
-              <input type="hidden" name="gclid" value="" />
-              <input type="hidden" name="gbraid" value="" />
-              <input type="hidden" name="wbraid" value="" />
-              <input type="hidden" name="referrer" value="" />
-              <label>
-                Telemóvel *
-                <input
-                  autocomplete="tel"
-                  inputmode="tel"
-                  maxlength="30"
-                  name="telefone"
-                  placeholder="Ex.: 912 345 678"
-                  required
-                  type="tel"
-                />
-              </label>
-              <label>
-                Localidade <span class="optional">(opcional)</span>
-                <input
-                  autocomplete="address-level2"
-                  maxlength="120"
-                  name="localidade_callback"
-                  placeholder="Ex.: Loures"
-                  type="text"
-                />
-              </label>
-              <button class="btn whatsapp full" type="submit">Pedir que me liguem pelo WhatsApp</button>
-              <p class="callback-privacy">
-                Abre uma mensagem pronta no WhatsApp. Só recebemos o pedido depois de confirmar o envio.
-                <a href="/privacidade/">Privacidade</a>
-              </p>
-              <p class="callback-status" hidden role="status"></p>
-            </form>
-          </details>
-</div>
-        </div>
-      </section>
+      
 <section class="section faq-section" id="faq">
         <div class="wrap narrow">
           <div class="section-head">
