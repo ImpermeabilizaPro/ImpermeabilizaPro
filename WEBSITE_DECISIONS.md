@@ -91,3 +91,11 @@ The inherited assets/vinicius-nascimento.webp is invalid (both browser display a
 - Kept `ip_whatsapp_request_prepared` and callback-open events as diagnostics only.
 - Refreshed the tracking script cache reference on Home, Telhados, Terraços, Paredes and Tela Asfáltica so the corrected bundle is loaded.
 - Google Ads account-level call reporting remains enabled and the call asset uses +351 930 446 198. Website-call conversion tracking with a Google forwarding number still requires a dedicated Google Ads conversion action/snippet and is not writable through the current connector.
+
+## Observed-contact event names — 25 September 2026
+
+- Renamed website click events to `ip_whatsapp_click_observed`, `ip_phone_click_observed` and `ip_email_click_observed`.
+- Purpose: prevent historic GA4/Google Ads key-event or conversion configurations attached to the old event names from continuing to receive simple click/open signals as if they were confirmed contacts.
+- Historical data is preserved under the old names. New observed events remain available for funnel analysis but are not lead-success events.
+- `ip_contact_intent` remains removed from live tracking.
+- Confirmed contact conversions should be created from connected/qualified calls or imported real leads (WhatsApp, email, SMS, quote request) rather than from button clicks.
