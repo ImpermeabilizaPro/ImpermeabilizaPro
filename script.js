@@ -111,6 +111,26 @@ function trackOncePerSession(event, key, extra = {}) {
   if (!claimSessionOnce(key)) return false;
   return track(event, { ...extra, event_scope: "one_per_session" });
 }
+
+function replaceWebsitePhoneNumber(formattedNumber, mobileNumber) {
+  if (consent !== "accepted") return;
+  const dialNumber = String(mobileNumber || "").replace(/[^+0-9]/g, "");
+  if (!/^\+?[0-9]{9,15}$/.test(dialNumber)) return;
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+    const current = link.getAttribute("href").replace(/[^0-9]/g, "");
+    if (current !== PHONE && current !== "930446198") return;
+    link.href = "tel:" + dialNumber;
+    // Preserve icons, labels and event handlers. WhatsApp keeps the business number.
+    const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      node.nodeValue = node.nodeValue.replace(/(?:\+351\s*)?930\s*446\s*198/g, () => String(formattedNumber));
+    }
+    const label = link.getAttribute("aria-label");
+    if (label) link.setAttribute("aria-label", label.replace(/(?:\+351\s*)?930\s*446\s*198/g, () => String(formattedNumber)));
+  });
+}
+
 function loadGa4() {
   if (window.__ga4Loaded) return;
   window.__ga4Loaded = true;
@@ -129,6 +149,11 @@ function loadGa4() {
   // can be stored by the Google tag without generating a second page view.
   window.gtag("config", ADS_ID, {
     send_page_view: false,
+  });
+  // Track connected website calls after consent, using Google's forwarding number.
+  window.gtag("config", "AW-18418470072/gM9vCIf3g4UdELiZzs5E", {
+    phone_conversion_number: "930 446 198",
+    phone_conversion_callback: replaceWebsitePhoneNumber,
   });
 }
 function applyConsent(value) {
