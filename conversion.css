@@ -1,0 +1,36 @@
+/* Contact flow and readable service pages, scoped to marketing routes. */
+.conversion-page .hero-actions .btn { white-space: normal; text-align: center; }
+.conversion-page .request-extras { margin: 16px 0; padding: 14px; border: 1px solid #ccd5df; border-radius: 8px; }
+.conversion-page .request-extras summary { cursor: pointer; font-size: .875rem; font-weight: 700; color: #0a2340; }
+.conversion-page .request-extras[open] summary { margin-bottom: 16px; }
+.conversion-page .request-extras .field { margin-top: 12px; }
+.conversion-page .quick-card label, .conversion-page .quick-card input, .conversion-page .quick-card select, .conversion-page .quick-card textarea { font-size: 1rem; }
+.conversion-page .quick-card .privacy, .conversion-page .quick-card .form-intro, .conversion-page .callback-box summary, .conversion-page .callback-box > p, .conversion-page .callback-privacy, .conversion-page .micro, .conversion-page .location, .conversion-page .work-note span, .conversion-page .steps p, .conversion-page .proof-grid span, .conversion-page .tech-specs span { font-size: .875rem; }
+.conversion-page .cro-steps { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.conversion-page .cro-steps article { min-width: 0; }
+.conversion-page .cro-local { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,.55fr); align-items: center; gap: 32px; }
+.conversion-page .cro-local h2 { margin: 0; font-size: clamp(1.75rem,3vw,2.5rem); line-height: 1.15; color: var(--navy); }
+.conversion-page .cro-local p { max-width: 650px; }
+.conversion-page .cro-local .local-actions { margin: 0; flex-direction: column; align-items: flex-start; }
+.conversion-page .cro-map-link { font-size: .875rem; text-underline-offset: 3px; }
+.conversion-page .service-grid article { display: flex; flex-direction: column; min-width: 0; }
+.conversion-page .service-grid a { position: static; margin-top: auto; padding-top: 18px; }
+.conversion-page .service-grid p { font-size: 1rem; }
+.conversion-page :is(section[id],main[id]) { scroll-margin-top: 110px; }
+.conversion-page :is(a,button,summary,input,select,textarea):focus-visible { outline: 3px solid #126aca; outline-offset: 4px; }
+.service-cro .hero-grid { min-height: 0; padding: 40px 0; gap: 40px; }
+.service-cro .hero h1 { font-size: clamp(2.25rem,4.1vw,3.5rem); line-height: 1.08; }
+.service-cro .hero .lead { margin-top: 18px; font-size: 1rem; line-height: 1.6; }
+.service-cro .hero-photo img { height: 400px; }
+.service-cro .hero-actions { margin-top: 22px; }
+.service-cro .identity, .service-cro .work-showcase { padding-top: 48px; padding-bottom: 48px; }
+@media(max-width:760px) {
+ .conversion-page .cro-steps, .conversion-page .cro-local { grid-template-columns: minmax(0,1fr); }
+ .conversion-page .hero-actions .btn { width: 100%; }
+ .service-cro .hero-grid { grid-template-columns: minmax(0,1fr); padding: 28px 0; gap: 24px; }
+ .service-cro .hero h1 { font-size: clamp(2rem,8.5vw,2.7rem); }
+ .service-cro .hero-photo img { height: 260px; }
+ .conversion-page .mobile-header-cta { background: #0b7a5d; color: white; }
+ .conversion-page .quick-card { min-width: 0; }
+}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } }
