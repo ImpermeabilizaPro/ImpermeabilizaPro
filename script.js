@@ -109,15 +109,6 @@ function trackOncePerSession(event, key, extra = {}) {
   if (!claimSessionOnce(key)) return false;
   return track(event, { ...extra, event_scope: "one_per_session" });
 }
-function trackLeadIntent(channel, placement) {
-  trackOncePerSession("ip_contact_intent", "ip_contact_intent_counted", {
-    contact_action: channel,
-    placement,
-    measurement_type: "first_contact_click",
-    verification_status: "click_only_not_confirmed_contact",
-    lead_scope: "one_per_session",
-  });
-}
 function loadGa4() {
   if (window.__ga4Loaded) return;
   window.__ga4Loaded = true;
@@ -344,7 +335,6 @@ if (form) {
       measurement_type: "click_to_whatsapp",
       verification_status: "click_only_message_not_confirmed_sent",
     });
-    trackLeadIntent("whatsapp", "request_builder");
     window.open(url, "_blank", "noopener,noreferrer");
   });
   requestLink.addEventListener("click", () => {
@@ -544,7 +534,6 @@ callbackForms.forEach((callbackForm) => {
       measurement_type: "click_only_message_not_confirmed_sent",
       verification_status: "whatsapp_opened_not_message_confirmed",
     });
-    trackLeadIntent("whatsapp", "callback_form");
 
     status.hidden = false;
     status.textContent = "A mensagem está preparada. Confirme o envio no WhatsApp para recebermos o pedido.";
