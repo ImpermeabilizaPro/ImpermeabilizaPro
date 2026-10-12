@@ -641,7 +641,7 @@ if (heroSlideImage) {
         if (active) dot.setAttribute("aria-current", "true");
         else dot.removeAttribute("aria-current");
       });
-      preloadHeroImage(heroImageIndex + 1);
+      if (heroImageIndex !== 0) preloadHeroImage(heroImageIndex + 1);
       requestAnimationFrame(() => heroSlideImage.classList.remove("is-changing"));
     };
 
@@ -662,7 +662,7 @@ if (heroSlideImage) {
   function startHeroImages() {
     stopHeroImages();
     if (reduceMotion || document.hidden) return;
-    preloadHeroImage(heroImageIndex + 1);
+    // Give the primary hero image time to load before preloading the next slide.
     heroImageTimer = setInterval(
       () => renderHeroImage(heroImageIndex + 1),
       6000,
