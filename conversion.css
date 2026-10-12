@@ -62,3 +62,29 @@
     background: #fff;
   }
 }
+
+/* Mobile contact usability: larger tap targets and readable form feedback. */
+@media (max-width: 760px) {
+  .conversion-page .mobile-header-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .conversion-page .quick-card :is(input, select, textarea) {
+    max-width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
+  .conversion-page .quick-card :is(.btn, button[type="submit"]) {
+    min-height: 44px;
+    white-space: normal;
+  }
+  .conversion-page :is(.form-error, .request-status, .callback-status, .photo-upload-note) {
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+  }
+}
