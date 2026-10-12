@@ -213,7 +213,7 @@ document.getElementById("manageCookies")?.addEventListener("click", () => {
 const messages = {
   geral: "Olá! Gostaria de pedir um orçamento de impermeabilização.",
   telhados:
-    "Olá! Gostaria de pedir um orçamento para impermeabilizar um telhado ou cobertura.",
+    "Olá! Gostaria de pedir um orçamento para impermeabilizar uma cobertura plana ou cobertura.",
   terracos:
     "Olá! Gostaria de pedir um orçamento para impermeabilizar um terraço ou varanda.",
   paredes:
