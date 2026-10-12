@@ -34,3 +34,31 @@
  .conversion-page .quick-card { min-width: 0; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } }
+
+/* Mobile: enlarge slideshow tap targets while preserving the small visual indicators. */
+@media (max-width: 760px) {
+  .conversion-page .hero-background-footer .hero-dots { gap: 0; }
+  .conversion-page .hero-background-footer .hero-dot,
+  .conversion-page .hero-background-footer .hero-dot.is-active {
+    position: relative;
+    width: 36px;
+    height: 40px;
+    min-width: 36px;
+    padding: 0;
+    background: transparent;
+    touch-action: manipulation;
+  }
+  .conversion-page .hero-background-footer .hero-dot::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    right: 9px;
+    top: 18px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.45);
+  }
+  .conversion-page .hero-background-footer .hero-dot.is-active::after {
+    background: #fff;
+  }
+}
