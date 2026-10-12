@@ -589,7 +589,7 @@ callbackForms.forEach((callbackForm) => {
 });
 
 
-// Homepage hero slider: optimized WebP delivery through Netlify Image CDN.
+// Homepage hero slider: serve local images and allow more time to read the hero.
 const heroSlideImage = document.getElementById("heroSlideImage");
 if (heroSlideImage) {
   const heroImagePaths = [
@@ -665,7 +665,7 @@ if (heroSlideImage) {
     preloadHeroImage(heroImageIndex + 1);
     heroImageTimer = setInterval(
       () => renderHeroImage(heroImageIndex + 1),
-      3000,
+      6000,
     );
   }
 
