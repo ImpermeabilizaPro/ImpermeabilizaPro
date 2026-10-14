@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "impermeabilizapro-leads",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-14",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "LEADS_DB",
+      "database_name": "impermeabilizapro-leads",
+      "database_id": "SUBSTITUIR_PELO_ID_REAL_D1"
+    }
+  ],
+  "vars": {
+    "LEADS_TO": "proimpermeabiliza@gmail.com"
+  }
+}
