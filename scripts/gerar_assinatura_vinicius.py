@@ -27,7 +27,7 @@ w,h = identity.size
 draw = ImageDraw.Draw(identity)
 # The original image contains the name and job title baked into the bottom-right identity area.
 # Preserve logo/company art in the top and left area.
-x0 = round(w * 0.255)
+x0 = round(w * 0.38)
 y0 = round(h * 0.535)
 x1 = w - 2
 y1 = round(h * 0.78)
@@ -42,10 +42,10 @@ phone = fetch("telefone.png")
 w,h=phone.size
 draw=ImageDraw.Draw(phone)
 # Retain the original blue icon and label; replace only the phone number.
-x0=round(w*.23)
-y0=round(h*.38)
+x0=round(w*.19)
+y0=round(h*.52)
 draw.rectangle((x0,y0,w-2,h-1),fill=(255,255,255,255))
 number = "+351 930 446 198"
-draw.text((x0+1,y0),number,font=fit_text(draw,number,w-x0-5,round(h*.30),True),fill="#081d43")
+draw.text((x0+1,y0),number,font=fit_text(draw,number,w-x0-5,round(h*.18),True),fill="#081d43")
 phone.save(OUT/"telefone.png",optimize=True)
 print("Generated",identity.size,phone.size)
