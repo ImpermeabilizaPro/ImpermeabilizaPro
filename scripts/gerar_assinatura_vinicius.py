@@ -43,9 +43,9 @@ w,h=phone.size
 draw=ImageDraw.Draw(phone)
 # Retain the original blue icon and label; replace only the phone number.
 x0=round(w*.19)
-y0=round(h*.52)
+y0=round(h*.18)
 draw.rectangle((x0,y0,w-2,h-1),fill=(255,255,255,255))
-number = "+351 930 446 198"
-draw.text((x0+1,y0),number,font=fit_text(draw,number,w-x0-5,round(h*.18),True),fill="#081d43")
+draw.text((x0+1,round(h*.23)), "Telefone / WhatsApp:", font=font(round(h*.13)), fill="#43526a")\nnumber = "+351 930 446 198"
+draw.text((x0+1,round(h*.53)),number,font=fit_text(draw,number,w-x0-5,round(h*.18),True),fill="#081d43")
 phone.save(OUT/"telefone.png",optimize=True)
 print("Generated",identity.size,phone.size)
